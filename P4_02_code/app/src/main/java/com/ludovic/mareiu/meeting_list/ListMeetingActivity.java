@@ -9,6 +9,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -17,18 +18,21 @@ import com.ludovic.mareiu.di.DI;
 
 public class ListMeetingActivity extends AppCompatActivity {
     Toolbar mToolbar;
-    private MeetingRecyclerViewAdapter mMeetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(DI.getMeetingApiService().getMeetings());
-    //ViewPager mViewPager;
+   // private MeetingRecyclerViewAdapter mMeetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(DI.getMeetingApiService().getMeetings());
+    ViewPager mViewPager;
+    ListMeetingPagerAdapter mPagerAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_meeting);
-        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_meetings);
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(mMeetingRecyclerViewAdapter);
+        //RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_meetings);
+        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        //recyclerView.setAdapter(mMeetingRecyclerViewAdapter);
         mToolbar = findViewById(R.id.toolbar);
-        //mViewPager = (ViewPager) findViewById(R.id.container);
+        mViewPager = (ViewPager) findViewById(R.id.container);
+        mPagerAdapter = new ListMeetingPagerAdapter(getSupportFragmentManager());
+        mViewPager.setAdapter(mPagerAdapter);
 
         setSupportActionBar(mToolbar);
 

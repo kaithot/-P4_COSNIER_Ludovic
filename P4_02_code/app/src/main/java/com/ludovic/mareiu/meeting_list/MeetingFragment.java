@@ -51,7 +51,7 @@ public class MeetingFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_meeting_list, container, false);
         Context context = view.getContext();
         mRecyclerView = (RecyclerView) view;
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         mRecyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         initList();
         return view;

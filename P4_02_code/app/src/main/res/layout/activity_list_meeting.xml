@@ -6,8 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".meeting_list.ListMeetingActivity"
-    tools:layout_editor_absoluteY="25dp">
+    tools:context=".meeting_list.ListMeetingActivity">
 
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
@@ -32,14 +31,19 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@android:drawable/ic_dialog_email" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/list_meetings"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:layout_editor_absoluteX="185dp"
-        tools:ignore="MissingConstraints" />
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/container"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_gravity = "top"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <androidx.viewpager.widget.PagerTitleStrip
+        android:layout_width = "match_parent"
+        android:layout_height = "wrap_content"
+         />
+
+    </androidx.viewpager.widget.ViewPager>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
