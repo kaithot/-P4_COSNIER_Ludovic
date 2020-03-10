@@ -7,7 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.ludovic.mareiu.R;
@@ -18,14 +17,15 @@ import com.ludovic.mareiu.service.MeetingApiService;
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
+import java.util.Objects;
 
 public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecyclerViewAdapter.ViewHolder> {
 
-    private MeetingApiService meetingApiService;
+    public MeetingApiService meetingApiService;
     private final List<Meeting> mMeetings;
 
-    public MeetingRecyclerViewAdapter(List<Meeting> items){
-        mMeetings = items;
+    public MeetingRecyclerViewAdapter(List<Meeting> items) {
+        this.mMeetings = items;
     }
 
     @Override
@@ -36,8 +36,9 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
     }
 
     @Override
-    public void onBindViewHolder(final ViewHolder holder, int position) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
+        //TODO INSERER LES CERCLES
         holder.mMeetingSubject.setText(meeting.getSubject());
         holder.mMeetingSchedule.setText(meeting.getStart());
         holder.mMeetingPlace.setText(meeting.getPlace());
@@ -68,7 +69,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
 
 
 
-        public ViewHolder(@NonNull View itemView) {
+        public ViewHolder(View itemView) {
             super(itemView);
 
             mMeetingSubject = ((TextView) itemView.findViewById(R.id.item_list_subject));

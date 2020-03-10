@@ -1,37 +1,36 @@
 package com.ludovic.mareiu.meeting_list;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import com.ludovic.mareiu.R;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
-
-import java.util.List;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.snackbar.Snackbar;
+import com.ludovic.mareiu.R;
+import com.ludovic.mareiu.di.DI;
 
 public class ListMeetingActivity extends AppCompatActivity {
     Toolbar mToolbar;
-    ViewPager mViewPager;
-    ListMeetingPagerAdapter mPagerAdapter;
+    private MeetingRecyclerViewAdapter mMeetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(DI.getMeetingApiService().getMeetings());
+    //ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_meeting);
+        RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_meetings);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setAdapter(mMeetingRecyclerViewAdapter);
         mToolbar = findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.container);
+        //mViewPager = (ViewPager) findViewById(R.id.container);
 
         setSupportActionBar(mToolbar);
-        mPagerAdapter = new ListMeetingPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
