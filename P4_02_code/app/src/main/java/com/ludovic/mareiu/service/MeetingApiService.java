@@ -12,12 +12,15 @@ public interface MeetingApiService {
     /**
      * Get all the meetings
      */
-
     List<Meeting>getMeetings();
 
     /**
-     * Deletes a meeting
+     * Delete a meeting
      */
-
     void deleteMeeting (Meeting meeting);
+
+    /**
+     * Create a meeting
+     */
+    void createMeeting(Meeting meeting);
 }

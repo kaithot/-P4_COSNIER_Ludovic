@@ -9,10 +9,7 @@ import java.util.List;
 
 public class DummyMeetingGenerator {
 
-    public static List<Meeting> DUMMY_MEETINGS = Arrays.asList(
-            new Meeting(1,"Presentation","Room 1","10h00","toi@etmoi, moi@ettoi"),
-            new Meeting(2,"Presentation","Room 1","10h00","toi@etmoi, moi@ettoi")
-    );
+    public static List<Meeting> DUMMY_MEETINGS = Arrays.asList();
 
     static List<Meeting>generateMeetings(){return new ArrayList<>(DUMMY_MEETINGS);    }
 }

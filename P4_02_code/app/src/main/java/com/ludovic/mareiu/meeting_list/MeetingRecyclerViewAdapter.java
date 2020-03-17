@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -12,17 +13,14 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.ludovic.mareiu.R;
 import com.ludovic.mareiu.events.DeleteMeetingEvent;
 import com.ludovic.mareiu.model.Meeting;
-import com.ludovic.mareiu.service.MeetingApiService;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.List;
-import java.util.Objects;
 
 public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecyclerViewAdapter.ViewHolder> {
 
-    public MeetingApiService meetingApiService;
-    private final List<Meeting> mMeetings;
+    private List<Meeting> mMeetings;
 
     public MeetingRecyclerViewAdapter(List<Meeting> items) {
         this.mMeetings = items;
@@ -39,16 +37,15 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
         //TODO INSERER LES CERCLES
-        holder.mMeetingSubject.setText(meeting.getSubject());
-        holder.mMeetingSchedule.setText(meeting.getStart());
-        holder.mMeetingPlace.setText(meeting.getPlace());
+        holder.mMeetingTopicSchedulePlace.setText(meeting.getTopic()+" - "+meeting.getStart()+" H - "+meeting.getPlace());
+        //holder.mMeetingSchedule.setText(meeting.getStart()+" H");
         holder.mMeetingParticipant.setText(meeting.getParticipant());
 
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.findViewById(R.id.item_list_delete_button).setVisibility(View.INVISIBLE);
-                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
+                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));// TODO REVOIR LE PROBLEME DE SUPP.
             }
         });
 
@@ -59,22 +56,19 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         return mMeetings.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder{
 
-        public TextView mMeetingSubject;
-        public TextView mMeetingSchedule;
-        public TextView mMeetingPlace;
-        public TextView mMeetingParticipant;
-        public ImageButton mDeleteButton;
-
+        ImageView mAlert;
+        TextView mMeetingTopicSchedulePlace;
+        TextView mMeetingParticipant;
+        ImageButton mDeleteButton;
 
 
-        public ViewHolder(View itemView) {
+
+        ViewHolder(View itemView) {
             super(itemView);
-
-            mMeetingSubject = ((TextView) itemView.findViewById(R.id.item_list_subject));
-            mMeetingSchedule = ((TextView) itemView.findViewById(R.id.item_list_schedule));
-            mMeetingPlace = ((TextView) itemView.findViewById(R.id.item_list_place));
+            mAlert = ((ImageView) itemView.findViewById(R.id.imageView_item_alert));
+            mMeetingTopicSchedulePlace = ((TextView) itemView.findViewById(R.id.item_main));
             mMeetingParticipant = ((TextView) itemView.findViewById(R.id.item_list_participant));
             mDeleteButton = ((ImageButton) itemView.findViewById(R.id.item_list_delete_button));
 

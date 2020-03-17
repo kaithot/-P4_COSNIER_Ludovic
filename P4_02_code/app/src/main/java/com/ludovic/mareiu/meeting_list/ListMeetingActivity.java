@@ -9,42 +9,77 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.viewpager.widget.ViewPager;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
 import com.ludovic.mareiu.R;
 import com.ludovic.mareiu.di.DI;
+import com.ludovic.mareiu.events.DeleteMeetingEvent;
+import com.ludovic.mareiu.model.Meeting;
+import com.ludovic.mareiu.service.MeetingApiService;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.List;
 
 public class ListMeetingActivity extends AppCompatActivity {
-    Toolbar mToolbar;
-   // private MeetingRecyclerViewAdapter mMeetingRecyclerViewAdapter = new MeetingRecyclerViewAdapter(DI.getMeetingApiService().getMeetings());
-    ViewPager mViewPager;
-    ListMeetingPagerAdapter mPagerAdapter;
+
+    private MeetingRecyclerViewAdapter mAdapter = new MeetingRecyclerViewAdapter(DI.getMeetingApiService().getMeetings());
+    private MeetingApiService mApiService;
+    private List<Meeting> mMeetings;
+    private RecyclerView mRecyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_meeting);
-        //RecyclerView recyclerView = (RecyclerView) findViewById(R.id.list_meetings);
-        //recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        //recyclerView.setAdapter(mMeetingRecyclerViewAdapter);
-        mToolbar = findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.container);
-        mPagerAdapter = new ListMeetingPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-
-        setSupportActionBar(mToolbar);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mApiService = DI.getMeetingApiService();
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_meetings);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mAdapter);
     }
+    public void addMeeting(View view) {
+                    AddMeetingActivity.navigate(this);
+            }
+
+
+    /**
+     * Init the list of meetings
+     */
+
+    private void initList(){
+        mMeetings = mApiService.getMeetings();
+        mRecyclerView.setAdapter(new MeetingRecyclerViewAdapter(mMeetings));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initList();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /**
+     * Fired if the user clicks on a delete button
+     * @param event
+     */
+    @Subscribe
+    public void onDeleteMeeting(DeleteMeetingEvent event) {
+
+        mApiService.deleteMeeting(event.meeting);
+        initList();
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -61,7 +96,7 @@ public class ListMeetingActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_sort_by_topic) {
             return true;
         }
 

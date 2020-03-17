@@ -1,4 +1,28 @@
 <resources>
-    <string name="app_name">Mareiu</string>
-    <string name="action_settings">Settings</string>
+    <string name="app_name">Maréu</string>
+    <string name="sort_topic">Sort by topic</string>
+    <string name="sort_date">Sort by date</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="previous">Previous</string>
+    <string name="activity_new_meeting"></string>
+    <string name="recordmeeting">Enter elements for your meeting:</string>
+
+<!--Spinners elements-->
+    <string name = "room1"> Mario </string>
+    <string name = "room2"> Luigi </string>
+    <string name = "room3"> Peach </string>
+    <string name = "room4"> Browser </string>
+    <string name = "room5"> Zelda </string>
+    <string name = "room6"> Kirby </string>
+    <string name = "room7"> Metroid </string>
+    <string name = "room8"> Toad </string>
+    <string name = "room9"> Daisy </string>
+    <string name = "room10"> Yoshi </string>
+    <!-- -->
+
+    <string name="MeetingRooms">MeetingRooms</string>
+    <string name="topicname">Meeting\'s Topic</string>
+    <string name="AddParticipants">Add Participants</string>
+    <string name="saveMeeting">SAVE</string>
+
 </resources>

@@ -11,12 +11,12 @@ public class Meeting implements Serializable {
     /**
      * Identifier
      */
-    private Integer id;
+    private Long id;
 
     /**
      * Subject
      */
-    private String subject;
+    private String topic;
 
     /**
      * Place
@@ -26,7 +26,7 @@ public class Meeting implements Serializable {
     /**
      * Start
      */
-    private String start;
+    private Integer start;
 
     /**
      * Participant
@@ -36,33 +36,33 @@ public class Meeting implements Serializable {
 /**
  * Constructor
  * @param id
- * @param subject
+ * @param topic
  * @param place
  * @param start
  * @param participant
  */
- public Meeting(Integer id, String subject, String place, String start, String participant){
+ public Meeting(Long id, String topic, String place, Integer start, String participant){
      this.id = id;
-     this.subject = subject;
+     this.topic = topic;
      this.place = place;
      this.start = start;
      this.participant = participant;
  }
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 
-    public String getSubject() {
-        return subject;
+    public String getTopic() {
+        return topic;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
     public String getPlace() {
@@ -73,11 +73,11 @@ public class Meeting implements Serializable {
         this.place = place;
     }
 
-    public String getStart() {
+    public Integer getStart() {
         return start;
     }
 
-    public void setStart(String start) {
+    public void setStart(Integer start) {
         this.start = start;
     }
 
