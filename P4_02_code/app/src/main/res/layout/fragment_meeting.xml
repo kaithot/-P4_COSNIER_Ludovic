@@ -8,7 +8,7 @@
     android:padding="8dp">
 
     <ImageView
-        android:id="@+id/imageView_item_alert"
+        android:id="@+id/item_alert"
         android:layout_width="50dp"
         android:layout_height="50dp"
         tools:src="@android:drawable/alert_dark_frame" />

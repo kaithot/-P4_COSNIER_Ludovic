@@ -16,36 +16,53 @@ import com.ludovic.mareiu.model.Meeting;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.util.Calendar;
 import java.util.List;
 
 public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecyclerViewAdapter.ViewHolder> {
 
     private List<Meeting> mMeetings;
 
+
     public MeetingRecyclerViewAdapter(List<Meeting> items) {
         this.mMeetings = items;
     }
 
     @Override
-    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType){
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from((parent.getContext()))
-                .inflate(R.layout.fragment_meeting,parent,false);
+                .inflate(R.layout.fragment_meeting, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
-        //TODO INSERER LES CERCLES
-        holder.mMeetingTopicSchedulePlace.setText(meeting.getTopic()+" - "+meeting.getStart()+" H - "+meeting.getPlace());
-        //holder.mMeetingSchedule.setText(meeting.getStart()+" H");
+
+        /*recovery current hour*/
+        Calendar rightNow = Calendar.getInstance();
+        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+        /*--------------------*/
+
+        /*selected the good alert*/
+        int result = meeting.getStart() - currentHour;
+
+        if (result < 2) {
+            holder.mAlert.setImageResource(R.drawable.red_alert);
+        } else if (result < 3) {
+            holder.mAlert.setImageResource(R.drawable.orange_alert);
+        } else {
+            holder.mAlert.setImageResource(R.drawable.green_alert);
+        }
+
+        holder.mMeetingTopicSchedulePlace.setText(meeting.getTopic() + " - " + meeting.getStart() + " H - " + meeting.getPlace());
         holder.mMeetingParticipant.setText(meeting.getParticipant());
 
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.findViewById(R.id.item_list_delete_button).setVisibility(View.INVISIBLE);
-                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));// TODO REVOIR LE PROBLEME DE SUPP.
+                EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
             }
         });
 
@@ -56,7 +73,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         return mMeetings.size();
     }
 
-    class ViewHolder extends RecyclerView.ViewHolder{
+    class ViewHolder extends RecyclerView.ViewHolder {
 
         ImageView mAlert;
         TextView mMeetingTopicSchedulePlace;
@@ -64,10 +81,9 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         ImageButton mDeleteButton;
 
 
-
         ViewHolder(View itemView) {
             super(itemView);
-            mAlert = ((ImageView) itemView.findViewById(R.id.imageView_item_alert));
+            mAlert = ((ImageView) itemView.findViewById(R.id.item_alert));
             mMeetingTopicSchedulePlace = ((TextView) itemView.findViewById(R.id.item_main));
             mMeetingParticipant = ((TextView) itemView.findViewById(R.id.item_list_participant));
             mDeleteButton = ((ImageButton) itemView.findViewById(R.id.item_list_delete_button));

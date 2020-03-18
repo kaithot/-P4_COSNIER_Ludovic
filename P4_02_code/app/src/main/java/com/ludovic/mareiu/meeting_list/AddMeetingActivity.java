@@ -27,7 +27,7 @@ import java.util.Calendar;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
-    ImageView avatar;
+    ImageView mAlert;
     EditText mTopic;
     Spinner mSpinnerRoom;
     TimePicker mSpinnerSchedule;
@@ -35,7 +35,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     Button mAddButton;
 
     private MeetingApiService mApiService;
-    private String mMeetingImage;
+    private String mMeetingAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +51,10 @@ public class AddMeetingActivity extends AppCompatActivity {
 
         /*Convert TimePicker to 24H*/
         mSpinnerSchedule.setIs24HourView(true);
-        mSpinnerSchedule.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
+        //mSpinnerSchedule.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         /*------------------------*/
+
+
     }
      //@RequiresApi(api = Build.VERSION_CODES.M)
      //TODO en ajoutant getHour, j'ai cette ligne qui indique une API minimum de 23, le projet doit être sur 21 ...
