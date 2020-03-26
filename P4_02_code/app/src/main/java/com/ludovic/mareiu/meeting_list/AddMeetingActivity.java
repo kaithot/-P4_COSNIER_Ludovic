@@ -56,21 +56,24 @@ public class AddMeetingActivity extends AppCompatActivity {
         int minutes = mSpinnerSchedule.getCurrentMinute();
         String participants = mParticipants.getText().toString();
 
-        int startMinutes = (hour * 60 + minutes);
-        int endMinutes = (hour * 60 + minutes + 60);
+        int startMinutes = (hour * 60 + minutes); // convert meeting start time to minutes
+        boolean exist = false;
 
         if (!topic.equals("") && !room.equals("") && !participants.equals("")) {
 
-            for (int i = 0; i < mApiService.getMeetings().size(); i++) {
-                if ((startMinutes <= mApiService.getMeetings().get(i).getStart() * 60 + mApiService.getMeetings().get(i).getMinute() + 60)
-                        && (!room.equals(mApiService.getMeetings().get(i).getPlace()))) {
-                    Meeting meeting = new Meeting(topic, room, hour, minutes, participants);
-                    mApiService.createMeeting(meeting);
-                    finish();
-                } else {
-                    Toast.makeText(AddMeetingActivity.this, "the room or this time is not available", Toast.LENGTH_SHORT).show();
-                }
+            for (int i = 0; i < mApiService.getMeetings().size(); i++) { // search loop to see if the start time and the room entered exist
 
+                if ((startMinutes < mApiService.getMeetings().get(i).getStart()*60+mApiService.getMeetings().get(i).getMinute()+60) // compare the start time and end time of each meeting in the list
+                        && (room.equals(mApiService.getMeetings().get(i).getPlace()))) { // if the start time is the same, check if it's in the same room
+                    exist = true; // if the two conditions are ok, show an alert.
+                }
+            }
+            if (!exist) { // if it's not the case add the meeting into the list
+                Meeting meeting = new Meeting(topic, room, hour, minutes, participants);
+                mApiService.createMeeting(meeting);
+                finish();
+            }else {
+                Toast.makeText(AddMeetingActivity.this, "this room or this time is not available", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(AddMeetingActivity.this, "Field missing", Toast.LENGTH_SHORT).show();
