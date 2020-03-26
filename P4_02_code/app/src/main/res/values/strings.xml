@@ -1,10 +1,10 @@
 <resources>
-    <string name="app_name">Maréu</string>
+    <string name="app_name">MaRéu</string>
     <string name="sort_topic">Sort by topic</string>
     <string name="sort_date">Sort by date</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="previous">Previous</string>
-    <string name="activity_new_meeting"></string>
+    <string name="activity_new_meeting" />
     <string name="recordmeeting">Enter elements for your meeting:</string>
 
 <!--Spinners elements-->
@@ -23,6 +23,6 @@
     <string name="MeetingRooms">MeetingRooms</string>
     <string name="topicname">Meeting\'s Topic</string>
     <string name="AddParticipants">Add Participants</string>
-    <string name="saveMeeting">SAVE</string>
+    <string name="saveMeeting">Add a meeting</string>
 
 </resources>

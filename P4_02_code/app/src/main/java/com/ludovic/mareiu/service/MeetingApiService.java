@@ -23,4 +23,13 @@ public interface MeetingApiService {
      * Create a meeting
      */
     void createMeeting(Meeting meeting);
+
+    /**
+     * Sort the meetings by topic and start
+     */
+
+    void sortTopic ();
+
+    void sortStart ();
+
 }

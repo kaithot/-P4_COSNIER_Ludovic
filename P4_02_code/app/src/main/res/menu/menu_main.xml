@@ -8,7 +8,7 @@
     app:showAsAction="never" />
 
     <item
-        android:id="@+id/menu_sort_by_name"
+        android:id="@+id/menu_sort_by_start"
         android:title="@string/sort_date"
         app:showAsAction="never" />
 </menu>

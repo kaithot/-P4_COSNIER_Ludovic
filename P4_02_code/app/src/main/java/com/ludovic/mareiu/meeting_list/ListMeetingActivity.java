@@ -6,7 +6,6 @@ import android.view.MenuItem;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -37,16 +36,17 @@ public class ListMeetingActivity extends AppCompatActivity {
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mAdapter);
     }
+
     public void addMeeting(View view) {
-                    AddMeetingActivity.navigate(this);
-            }
+        AddMeetingActivity.navigate(this);
+    }
 
 
     /**
      * Init the list of meetings
      */
 
-    private void initList(){
+    private void initList() {
         mMeetings = mApiService.getMeetings();
         mRecyclerView.setAdapter(new MeetingRecyclerViewAdapter(mMeetings));
     }
@@ -69,37 +69,45 @@ public class ListMeetingActivity extends AppCompatActivity {
         EventBus.getDefault().unregister(this);
     }
 
-    /**
-     * Fired if the user clicks on a delete button
-     * @param event
-     */
-    @Subscribe
-    public void onDeleteMeeting(DeleteMeetingEvent event) {
 
-        mApiService.deleteMeeting(event.meeting);
-        initList();
-    }
-
-
+    /*--------Menu----------*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_sort_by_topic) {
-            return true;
+        switch (item.getItemId()) {
+
+            case R.id.menu_sort_by_topic:
+                mApiService.sortTopic();
+                initList();
+                return true;
+
+            case R.id.menu_sort_by_start:
+                mApiService.sortStart();
+                initList();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+
         }
 
-        return super.onOptionsItemSelected(item);
     }
+
+    /*----------------------*/
+
+    /*-----------delete button-----------*/
+    @Subscribe
+    public void onDeleteMeeting(DeleteMeetingEvent event) {
+
+        mApiService.deleteMeeting(event.meeting);
+        initList();
+    }
+    /*-----------------------------------*/
+
 }

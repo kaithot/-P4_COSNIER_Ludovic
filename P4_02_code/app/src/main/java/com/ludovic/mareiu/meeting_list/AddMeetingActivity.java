@@ -1,33 +1,25 @@
 package com.ludovic.mareiu.meeting_list;
 
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
-import androidx.fragment.app.FragmentActivity;
-
 import android.content.Intent;
-import android.os.Build;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ImageView;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.fragment.app.FragmentActivity;
 
 import com.ludovic.mareiu.R;
 import com.ludovic.mareiu.di.DI;
 import com.ludovic.mareiu.model.Meeting;
 import com.ludovic.mareiu.service.MeetingApiService;
 
-import java.util.Calendar;
-
 public class AddMeetingActivity extends AppCompatActivity {
 
-    ImageView mAlert;
     EditText mTopic;
     Spinner mSpinnerRoom;
     TimePicker mSpinnerSchedule;
@@ -35,7 +27,6 @@ public class AddMeetingActivity extends AppCompatActivity {
     Button mAddButton;
 
     private MeetingApiService mApiService;
-    private String mMeetingAlert;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,19 +47,35 @@ public class AddMeetingActivity extends AppCompatActivity {
 
 
     }
-     //@RequiresApi(api = Build.VERSION_CODES.M)
-     //TODO en ajoutant getHour, j'ai cette ligne qui indique une API minimum de 23, le projet doit être sur 21 ...
+
     public void addMeeting(View button) {
-        Meeting meeting = new Meeting(
-                System.currentTimeMillis(),
-                mTopic.getText().toString(),
-                mSpinnerRoom.getSelectedItem().toString(),
-                //mSpinnerSchedule.getHour(),
-                mSpinnerSchedule.getCurrentHour(),
-                mParticipants.getText().toString()
-        );
-        mApiService.createMeeting(meeting);
-        finish();
+
+        String topic = mTopic.getText().toString();
+        String room = mSpinnerRoom.getSelectedItem().toString();
+        int hour = mSpinnerSchedule.getCurrentHour();
+        int minutes = mSpinnerSchedule.getCurrentMinute();
+        String participants = mParticipants.getText().toString();
+
+        int startMinutes = (hour * 60 + minutes);
+        int endMinutes = (hour * 60 + minutes + 60);
+
+        if (!topic.equals("") && !room.equals("") && !participants.equals("")) {
+
+            for (int i = 0; i < mApiService.getMeetings().size(); i++) {
+                if ((startMinutes <= mApiService.getMeetings().get(i).getStart() * 60 + mApiService.getMeetings().get(i).getMinute() + 60)
+                        && (!room.equals(mApiService.getMeetings().get(i).getPlace()))) {
+                    Meeting meeting = new Meeting(topic, room, hour, minutes, participants);
+                    mApiService.createMeeting(meeting);
+                    finish();
+                } else {
+                    Toast.makeText(AddMeetingActivity.this, "the room or this time is not available", Toast.LENGTH_SHORT).show();
+                }
+
+            }
+        } else {
+            Toast.makeText(AddMeetingActivity.this, "Field missing", Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     /**

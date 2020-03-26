@@ -16,6 +16,7 @@ import com.ludovic.mareiu.model.Meeting;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.List;
 
@@ -46,7 +47,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
 
         /*selected the good alert*/
         int result = meeting.getStart() - currentHour;
-
         if (result < 2) {
             holder.mAlert.setImageResource(R.drawable.red_alert);
         } else if (result < 3) {
@@ -54,8 +54,17 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         } else {
             holder.mAlert.setImageResource(R.drawable.green_alert);
         }
+        /*--------------------*/
 
-        holder.mMeetingTopicSchedulePlace.setText(meeting.getTopic() + " - " + meeting.getStart() + " H - " + meeting.getPlace());
+        //TODO mise en place d'une condition pour mettre un zero supp. lorsque les minutes inf à 10
+        /*minutes with 2 zeros */
+        String fakeMinutes ="";
+        if (meeting.getMinute()<10){
+            fakeMinutes = "0";
+        }
+        /*--------------------*/
+
+        holder.mMeetingTopicSchedulePlace.setText(MessageFormat.format("{0} - {1} H {2}{3}- {4}", meeting.getTopic(), meeting.getStart(),fakeMinutes,meeting.getMinute(), meeting.getPlace()));
         holder.mMeetingParticipant.setText(meeting.getParticipant());
 
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
