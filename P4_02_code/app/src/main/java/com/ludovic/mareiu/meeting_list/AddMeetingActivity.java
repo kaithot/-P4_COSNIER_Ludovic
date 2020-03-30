@@ -44,8 +44,6 @@ public class AddMeetingActivity extends AppCompatActivity {
         mSpinnerSchedule.setIs24HourView(true);
         //mSpinnerSchedule.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
         /*------------------------*/
-
-
     }
 
     public void addMeeting(View button) {
@@ -56,24 +54,31 @@ public class AddMeetingActivity extends AppCompatActivity {
         int minutes = mSpinnerSchedule.getCurrentMinute();
         String participants = mParticipants.getText().toString();
 
+        //TODO AJOUT DU CONTROLE HEURE DE DEBUT ET SALLE AINSI QU UN CONTROL SUR LE MAIL !!! problème sur les réunions à insérer !!!
         int startMinutes = (hour * 60 + minutes); // convert meeting start time to minutes
+        int endMinutes = startMinutes + 60;
         boolean exist = false;
 
         if (!topic.equals("") && !room.equals("") && !participants.equals("")) {
+            if (participants.contains("@")) {
 
-            for (int i = 0; i < mApiService.getMeetings().size(); i++) { // search loop to see if the start time and the room entered exist
+                for (int i = 0; i < mApiService.getMeetings().size(); i++) { // search loop to see if the start time and the room entered exist
 
-                if ((startMinutes < mApiService.getMeetings().get(i).getStart()*60+mApiService.getMeetings().get(i).getMinute()+60) // compare the start time and end time of each meeting in the list
-                        && (room.equals(mApiService.getMeetings().get(i).getPlace()))) { // if the start time is the same, check if it's in the same room
-                    exist = true; // if the two conditions are ok, show an alert.
+                    if (startMinutes == (mApiService.getMeetings().get(i).getStart() * 60 + mApiService.getMeetings().get(i).getMinute())// if start time equal start time into the list = ko
+                            || (startMinutes < (mApiService.getMeetings().get(i).getStart() * 60 + mApiService.getMeetings().get(i).getMinute() + 60)) // if start time inf end time into the list = ko
+                            && (room.equals(mApiService.getMeetings().get(i).getPlace()))) { // if the start time is the same, check if it's in the same room
+                        exist = true; // if two of the three conditions are ok, show an alert.
+                    }
                 }
-            }
-            if (!exist) { // if it's not the case add the meeting into the list
-                Meeting meeting = new Meeting(topic, room, hour, minutes, participants);
-                mApiService.createMeeting(meeting);
-                finish();
+                if (!exist) { // if it's not the case add the meeting into the list
+                    Meeting meeting = new Meeting(topic, room, hour, minutes, participants);
+                    mApiService.createMeeting(meeting);
+                    finish();
+                } else {
+                    Toast.makeText(AddMeetingActivity.this, "this room or this time is not available", Toast.LENGTH_SHORT).show();
+                }
             }else {
-                Toast.makeText(AddMeetingActivity.this, "this room or this time is not available", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AddMeetingActivity.this, "make you sure to writing addresses mail", Toast.LENGTH_SHORT).show();
             }
         } else {
             Toast.makeText(AddMeetingActivity.this, "Field missing", Toast.LENGTH_SHORT).show();

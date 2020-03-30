@@ -17,22 +17,45 @@
             android:id="@+id/TextViewTitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:text="@string/recordmeeting"
-            android:textSize="10pt"></TextView>
+            android:textSize="10pt"
+            android:textStyle="bold"></TextView>
 
         <EditText
             android:id="@+id/Topic"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:hint="@string/topicname"
             android:inputType="textPersonName" />
+
+        <TextView
+            android:id="@+id/select_room"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:text="@string/select_the_room"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
 
         <Spinner
             android:id="@+id/SpinnerMeetingRooms"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
             android:entries="@array/roomtypelist"
-            android:prompt="@string/MeetingRooms" />
+            android:prompt="@string/MeetingRooms"
+            android:layout_marginBottom="10dp"/>
+
+        <TextView
+            android:id="@+id/select_start_time"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="05dp"
+            android:text="@string/select_start_time"
+            android:textSize="20sp"
+            android:textStyle="bold" />
 
         <TimePicker
             android:id="@+id/Schedule"
@@ -46,11 +69,10 @@
             android:id="@+id/Participants"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
             android:gravity="top"
             android:hint="@string/AddParticipants"
-            android:inputType="textMultiLine"
-            android:lines="10"
-            android:padding="5dp" />
+            android:padding="15dp" />
 
         <Button
             android:id="@+id/create"
