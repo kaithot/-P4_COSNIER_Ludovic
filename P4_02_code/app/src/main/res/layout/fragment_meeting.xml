@@ -1,54 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="8dp">
+    android:layout_marginBottom="4dp"
+    app:cardCornerRadius="4dp">
 
-    <ImageView
-        android:id="@+id/item_alert"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        tools:src="@android:drawable/alert_dark_frame" />
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_margin="4dp">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="5"
-        android:orientation="vertical"
-        android:paddingLeft="10dp"
-        android:paddingRight="10dp">
+        <ImageView
+            android:id="@+id/item_alert"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            tools:src="@android:drawable/alert_dark_frame" />
 
         <TextView
             android:id="@+id/item_main"
-            android:layout_width="0dp"
-            android:layout_height="20dp"
-            android:layout_marginTop="4dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@+id/item_alert"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
             tools:text="Réunion A - 14h00 - Peach" />
+
+        <ImageButton
+            android:id="@+id/item_list_delete_button"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentRight="false"
+            android:backgroundTint="@android:color/transparent"
+            android:src="@drawable/delete_button2" />
 
         <TextView
             android:id="@+id/item_list_participant"
-            android:layout_width="wrap_content"
-            android:layout_height="20dp"
-            android:maxLines="1"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/item_main"
+            android:layout_toEndOf="@+id/item_alert"
             android:ellipsize="end"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/item_main"
+            android:maxLines="1"
             tools:text="toto, toto2" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
+    </RelativeLayout>
 
-    <ImageButton
-        android:id="@+id/item_list_delete_button"
-        android:layout_width="0dp"
-        android:layout_height="50dp"
-        android:layout_weight="1"
-        android:backgroundTint="@android:color/transparent"
-        android:src="@drawable/delete_button2" />
-</LinearLayout>
+</androidx.cardview.widget.CardView>

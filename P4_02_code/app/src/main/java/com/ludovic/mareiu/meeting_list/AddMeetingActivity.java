@@ -1,13 +1,16 @@
 package com.ludovic.mareiu.meeting_list;
 
+import android.app.DatePickerDialog;
+import android.app.TimePickerDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -18,13 +21,25 @@ import com.ludovic.mareiu.di.DI;
 import com.ludovic.mareiu.model.Meeting;
 import com.ludovic.mareiu.service.MeetingApiService;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+
 public class AddMeetingActivity extends AppCompatActivity {
 
     EditText mTopic;
+    TextView mDateSelected;
     Spinner mSpinnerRoom;
-    TimePicker mSpinnerSchedule;
+    TextView mStartTime;
+    TextView mEndTime;
     EditText mParticipants;
     Button mAddButton;
+    private int mYear, mMonth, mDay, mHour, mMinute;
+    Calendar mCalendar;
+    Calendar mStartTimer;
+    Calendar mEndTimer;
+    private SimpleDateFormat mDateFormat;
+    private SimpleDateFormat mTimeFormat;
 
     private MeetingApiService mApiService;
 
@@ -34,56 +49,110 @@ public class AddMeetingActivity extends AppCompatActivity {
         setContentView(R.layout.activity_add_meeting);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         mApiService = DI.getMeetingApiService();
-        mTopic = findViewById(R.id.Topic);
-        mSpinnerRoom = findViewById(R.id.SpinnerMeetingRooms);
-        mSpinnerSchedule = findViewById(R.id.Schedule);
-        mParticipants = findViewById(R.id.Participants);
+        mTopic = findViewById(R.id.topic);
+        mDateSelected = findViewById(R.id.date_selected);
+        mSpinnerRoom = findViewById(R.id.spinnerMeetingRooms);
+        mStartTime = findViewById(R.id.start_time);
+        mEndTime = findViewById(R.id.end_time);
+
+        mParticipants = findViewById(R.id.participants);
         mAddButton = findViewById(R.id.create);
 
-        /*Convert TimePicker to 24H*/
-        mSpinnerSchedule.setIs24HourView(true);
-        //mSpinnerSchedule.setCurrentHour(Calendar.getInstance().get(Calendar.HOUR_OF_DAY));
-        /*------------------------*/
+        initCalendars();
+        dateSelected();
+        startTime();
+        endTime();
+    }
+
+    /**
+     * Init start calendar to next hour
+     */
+    private void initCalendars() {
+        mCalendar = Calendar.getInstance();
+        mCalendar.add(Calendar.HOUR, 1);
+        mCalendar.add(Calendar.MINUTE,0);
+
+        mYear = mCalendar.get(mCalendar.YEAR);
+        mMonth = mCalendar.get(mCalendar.MONTH);
+        mDay = mCalendar.get(mCalendar.DAY_OF_MONTH);
+        mHour = mCalendar.get(mCalendar.HOUR);
+        mMinute = mCalendar.get(mCalendar.MINUTE);
+        mDateFormat = new SimpleDateFormat((String) getText(R.string.date_format));
+        mTimeFormat = new SimpleDateFormat("HH:mm");
+    }
+
+    private void dateSelected() {
+        mDateSelected.setText(mDateFormat.format(mCalendar.getTime()));
+        mDateSelected.setClickable(true);
+        mDateSelected.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(AddMeetingActivity.this,
+                        new DatePickerDialog.OnDateSetListener() {
+                            @Override
+                            public void onDateSet(DatePicker datePicker, int year, int month, int day) {
+                                mCalendar.set(year,month,day);
+                                mDateSelected.setText(mDateFormat.format(mCalendar.getTime()));
+                            }
+                        }, mYear, mMonth, mMonth);
+
+                datePickerDialog.show();
+            }
+        });
+
+    }
+
+    private void startTime() {
+
+        mStartTime.setText(mTimeFormat.format(mCalendar.getTime()));
+        mStartTime.setClickable(true);
+        mStartTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        mCalendar.set(hourOfDay,minutes);
+                        mStartTime.setText(mTimeFormat.format(mCalendar.getTime()));
+                    }
+                }, mHour, 0, true);
+                timePickerDialog.show();
+            }
+        });
+
+    }
+
+    private void endTime() {
+
+        mEndTime.setText(mTimeFormat.format(mCalendar.getTime()));
+        mEndTime.setClickable(true);
+        mEndTime.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, new TimePickerDialog.OnTimeSetListener() {
+                    @Override
+                    public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
+                        mEndTimer.set(hourOfDay,minutes);
+                        mEndTime.setText(mTimeFormat.format(mEndTimer.getTime()));
+                    }
+                }, mHour+1, 0, true);
+                timePickerDialog.show();
+            }
+        });
+
     }
 
     public void addMeeting(View button) {
 
         String topic = mTopic.getText().toString();
+        Date date = mCalendar.getTime();
         String room = mSpinnerRoom.getSelectedItem().toString();
-        int hour = mSpinnerSchedule.getCurrentHour();
-        int minutes = mSpinnerSchedule.getCurrentMinute();
+        Date start = mStartTimer.getTime();
+        Date end = mEndTimer.getTime();
         String participants = mParticipants.getText().toString();
-
-        //TODO AJOUT DU CONTROLE HEURE DE DEBUT ET SALLE AINSI QU UN CONTROL SUR LE MAIL !!! problème sur les réunions à insérer !!!
-        int startMinutes = (hour * 60 + minutes); // convert meeting start time to minutes
-        int endMinutes = startMinutes + 60;
-        boolean exist = false;
-
-        if (!topic.equals("") && !room.equals("") && !participants.equals("")) {
-            if (participants.contains("@")) {
-
-                for (int i = 0; i < mApiService.getMeetings().size(); i++) { // search loop to see if the start time and the room entered exist
-
-                    if (startMinutes == (mApiService.getMeetings().get(i).getStart() * 60 + mApiService.getMeetings().get(i).getMinute())// if start time equal start time into the list = ko
-                            || (startMinutes < (mApiService.getMeetings().get(i).getStart() * 60 + mApiService.getMeetings().get(i).getMinute() + 60)) // if start time inf end time into the list = ko
-                            && (room.equals(mApiService.getMeetings().get(i).getPlace()))) { // if the start time is the same, check if it's in the same room
-                        exist = true; // if two of the three conditions are ok, show an alert.
-                    }
-                }
-                if (!exist) { // if it's not the case add the meeting into the list
-                    Meeting meeting = new Meeting(topic, room, hour, minutes, participants);
-                    mApiService.createMeeting(meeting);
-                    finish();
-                } else {
-                    Toast.makeText(AddMeetingActivity.this, "this room or this time is not available", Toast.LENGTH_SHORT).show();
-                }
-            }else {
-                Toast.makeText(AddMeetingActivity.this, "make you sure to writing addresses mail", Toast.LENGTH_SHORT).show();
-            }
-        } else {
-            Toast.makeText(AddMeetingActivity.this, "Field missing", Toast.LENGTH_SHORT).show();
-        }
-
+        Meeting meeting = new Meeting(topic,date,start,end,room,participants);
+        mApiService.createMeeting(meeting);
+        finish();
     }
 
     /**

@@ -4,17 +4,19 @@ import com.ludovic.mareiu.di.DI;
 import com.ludovic.mareiu.model.Meeting;
 import com.ludovic.mareiu.service.DummyMeetingGenerator;
 import com.ludovic.mareiu.service.MeetingApiService;
+import com.ludovic.mareiu.utils.Utils;
 
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.JUnit4;
 
+import java.util.Date;
 import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.assertTrue;
 
 
 @RunWith(JUnit4.class)
@@ -52,40 +54,37 @@ public class MeetingsUnitTest {
     public void addNewMeetingWithSuccess(){
         //GIVEN
         int meetingsSize = mApiService.getMeetings().size();
-        Meeting newMeeting = new Meeting("Demo4", "Yoshi", 14,"00","Momo, Zaza");
+        Meeting newMeeting = new Meeting ("Demo 4", Utils.getDate(2020,4,15),Utils.getTheTime(17, 0),Utils.getTheTime(18,0),"Luigi","maxime@lamzone.fr, alexandra@lamzone.fr");
         //WHEN
         mApiService.createMeeting(newMeeting);
         //THEN
         assertEquals(mApiService.getMeetings().size(), meetingsSize + 1);
     }
 
+    // TODO NOUVEAUX TESTS
+
     @Test
-    public void sortMeetingsByTopic(){
-        //GIVEN
-        Meeting m1 = mApiService.getMeetings().get(0);
-        Meeting m2 = mApiService.getMeetings().get(1);
-        Meeting m3 = mApiService.getMeetings().get(2);
-        //WHEN
-        mApiService.sortTopic();
-        //THEN
-        assertSame(m1, mApiService.getMeetings().get(0));
-        assertSame(m3, mApiService.getMeetings().get(1));
-        assertSame(m2, mApiService.getMeetings().get(2));
+    public void filterMeetingByDateWithSuccess(){
+
+
+        Date date = Utils.getDate(2020,4,13);
+        List<Meeting>filteredMeeting = mApiService.getMeetingsFilteredByDate(date);
+        // check if meetings only contains required date
+
     }
 
     @Test
-    public void sortMeetingsByStart(){
-        //GIVEN
-        Meeting m1 = mApiService.getMeetings().get(0);
-        Meeting m2 = mApiService.getMeetings().get(1);
-        Meeting m3 = mApiService.getMeetings().get(2);
+    public void filterMeetingByRoomWithSuccess(){
 
-        //WHEN
-        mApiService.sortStart();
-        //THEN
-        assertSame(m2, mApiService.getMeetings().get(0));
-        assertSame(m1, mApiService.getMeetings().get(1));
-        assertSame(m3, mApiService.getMeetings().get(2));
+
+
+        String room ="Mario";
+        List<Meeting>filteredMeeting = mApiService.getMeetingsFilteredByRoom(room);
+        // check if meetings only contains required room
+        for (Meeting meeting : filteredMeeting)
+        {
+            assertTrue(meeting.getPlace()=="Mario");
+        }
 
     }
 }

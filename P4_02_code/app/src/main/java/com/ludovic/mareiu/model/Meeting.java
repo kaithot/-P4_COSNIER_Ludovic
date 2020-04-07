@@ -1,11 +1,12 @@
 package com.ludovic.mareiu.model;
 
-import java.io.Serializable;
+
+import java.util.Date;
 
 /**
  * Model object representing a Meeting ; implements also Serializable
  */
-public class Meeting implements Serializable {
+public class Meeting {
 
     /**
      * Subject
@@ -13,36 +14,36 @@ public class Meeting implements Serializable {
     private String topic;
 
     /**
+     * Date
+     */
+    private Date date;
+
+    /**
      * Place
      */
     private String place;
 
     /**
-     * Start
+     * StartTime
      */
-    private Integer start;
+    private Date startTime;
 
-    /** Minutes */
-    private Integer minute;
+    /**
+     * EndTime
+     */
+    private Date endTime;
 
     /**
      * Participant
      */
     private String participant;
 
-    /**
-     * Constructor
-     *  @param topic
-     * @param place
-     * @param start
-     * @param minute
-     * @param participant
-     */
-    public Meeting(String topic, String place, Integer start, Integer minute, String participant) {
+    public Meeting(String topic, Date date, Date startTime, Date endTime,String place, String participant) {
         this.topic = topic;
+        this.date = date;
         this.place = place;
-        this.start = start;
-        this.minute = minute;
+        this.startTime = startTime;
+        this.endTime = endTime;
         this.participant = participant;
     }
 
@@ -54,6 +55,14 @@ public class Meeting implements Serializable {
         this.topic = topic;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public String getPlace() {
         return place;
     }
@@ -62,20 +71,20 @@ public class Meeting implements Serializable {
         this.place = place;
     }
 
-    public Integer getStart() {
-        return start;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStart(Integer start) {
-        this.start = start;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
     }
 
-    public Integer getMinute() {
-        return minute;
+    public Date getEndTime() {
+        return endTime;
     }
 
-    public void setMinute(Integer minute) {
-        this.minute = minute;
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getParticipant() {
@@ -86,4 +95,3 @@ public class Meeting implements Serializable {
         this.participant = participant;
     }
 }
-

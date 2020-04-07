@@ -2,13 +2,13 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.ludovic.mareiu.meeting_list.ListMeetingActivity">
-    <item
-    android:id="@+id/menu_sort_by_topic"
-    android:title="@string/sort_topic"
-    app:showAsAction="never" />
+
 
     <item
-        android:id="@+id/menu_sort_by_start"
-        android:title="@string/sort_date"
-        app:showAsAction="never" />
+        android:id="@+id/Filter"
+        android:title="Filter by Room or Day"
+        app:actionViewClass="androidx.appcompat.widget.SearchView"
+        app:showAsAction="collapseActionView">
+    </item>
+
 </menu>

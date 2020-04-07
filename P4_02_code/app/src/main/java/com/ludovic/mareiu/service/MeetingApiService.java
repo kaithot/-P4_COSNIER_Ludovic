@@ -2,6 +2,7 @@ package com.ludovic.mareiu.service;
 
 import com.ludovic.mareiu.model.Meeting;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -25,11 +26,11 @@ public interface MeetingApiService {
     void createMeeting(Meeting meeting);
 
     /**
-     * Sort the meetings by topic and start
+     * Filter the meetings by room and day
      */
 
-    void sortTopic ();
+    List<Meeting> getMeetingsFilteredByDate(Date date);
 
-    void sortStart ();
+    List<Meeting> getMeetingsFilteredByRoom(String room);
 
 }

@@ -2,8 +2,9 @@ package com.ludovic.mareiu.service;
 
 import com.ludovic.mareiu.model.Meeting;
 
-import java.util.Collections;
-import java.util.Comparator;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -29,26 +30,42 @@ public class DummyMeetingApiService implements MeetingApiService {
     }
 
     @Override
-    public void sortTopic() {
 
-        Collections.sort(meetings, new Comparator<Meeting>() {
-            public int compare(Meeting a, Meeting b) {
-                return a.getTopic().compareTo(b.getTopic());
+    public List<Meeting> getMeetingsFilteredByDate(Date date) {
+        List<Meeting> meetings = new ArrayList<>();
+        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        String meeting_date;
+        String filterDate = sdf.format(date);
+        for(Meeting meeting : meetings)
+        {
+            meeting_date =  sdf.format(meeting.getDate());
+            /// if(DateUtils.)
+            if( meeting_date.compareTo(filterDate)==0)
+            {
+                meetings.add(meeting);
             }
-        });
+        }
+        return meetings;
     }
 
+    /**
+     * Get all Meetings filtered by meeting room
+     * @param room
+     * @return {@link List}
+     */
     @Override
-    public void sortStart() {
+    public List<Meeting> getMeetingsFilteredByRoom(String room) {
+        List<Meeting> meetings = new ArrayList<>();
 
-        Collections.sort(meetings, new Comparator<Meeting>() {
-            public int compare(Meeting a, Meeting b) {
-                return a.getStart().compareTo(b.getStart());
+        for(Meeting meeting : meetings)
+        {
+            if(meeting.getPlace() == room)
+            {
+                meetings.add(meeting);
             }
-        });
-
+        }
+        return meetings;
     }
-
 
 }
 

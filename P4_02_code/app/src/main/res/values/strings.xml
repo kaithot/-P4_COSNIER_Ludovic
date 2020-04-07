@@ -1,11 +1,14 @@
 <resources>
     <string name="app_name">MaRéu</string>
-    <string name="sort_topic">Sort by topic</string>
-    <string name="sort_date">Sort by date</string>
+    <string name="filter_by_date">by date</string>
+    <string name="filter_by_room">by room</string>
+    <string name="sort_topic">by topic</string>
+    <string name="sort_date">by date</string>
+    <string name="no_filter">No filter</string>
     <string name="title_activity_main">MainActivity</string>
     <string name="previous">Previous</string>
     <string name="activity_new_meeting" />
-    <string name="recordmeeting">Enter elements for your meeting:</string>
+    <string name="recordMeeting">Enter elements for your meeting:</string>
 
 <!--Spinners elements-->
     <string name = "room1"> Mario </string>
@@ -21,10 +24,11 @@
     <!-- -->
 
     <string name="MeetingRooms">MeetingRooms</string>
-    <string name="topicname">Meeting\'s Topic</string>
+    <string name="topicName">Meeting\'s Topic</string>
     <string name="AddParticipants">Add Participants</string>
     <string name="saveMeeting">Add a meeting</string>
     <string name="select_the_room">Select the room :</string>
-    <string name="select_start_time">Select start time :</string>
+    <string name="select_start_time">Time of meeting :</string>
+    <string name="date_format">dd MMM yyyy</string>
 
 </resources>
