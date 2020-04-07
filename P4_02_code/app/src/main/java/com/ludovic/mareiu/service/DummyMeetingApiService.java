@@ -33,7 +33,7 @@ public class DummyMeetingApiService implements MeetingApiService {
 
     public List<Meeting> getMeetingsFilteredByDate(Date date) {
         List<Meeting> meetings = new ArrayList<>();
-        SimpleDateFormat sdf = new SimpleDateFormat("MM-dd");
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM");
         String meeting_date;
         String filterDate = sdf.format(date);
         for(Meeting meeting : meetings)

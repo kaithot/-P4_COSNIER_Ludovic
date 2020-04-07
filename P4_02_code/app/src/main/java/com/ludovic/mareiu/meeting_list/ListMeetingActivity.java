@@ -6,7 +6,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.EditorInfo;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.SearchView;
@@ -50,9 +49,8 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
 
-
-    private void refresh(){
-        mMeetings = new ArrayList<>(mApiService.getMeetings()) ;
+    private void refresh() {
+        mMeetings = new ArrayList<>(mApiService.getMeetings());
         mAdapter.notifyDataSetChanged();
     }
 
@@ -66,36 +64,25 @@ public class ListMeetingActivity extends AppCompatActivity {
         MenuItem searchItem = menu.findItem(R.id.Filter);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
-        searchView.setQueryHint("Filter by room or day (MM-dd)"); // display into the searchView
+        searchView.setQueryHint("Filter by room or day (dd/MM)"); // display into the searchView
 
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE); // transform keyboard's search into function enter
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-                //mAdapter.getFilter().filter(query);
+
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
 
-                                   mAdapter.getFilter().filter(newText);
-
-
-                return false;
-            }
-        });
-        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
-            @Override
-            public boolean onClose() {
-                Toast t = Toast.makeText(ListMeetingActivity.this, "close", Toast.LENGTH_SHORT);
-                t.show();
+                mAdapter.getFilter().filter(newText);
 
                 return false;
             }
         });
-
         return true;
 
     }

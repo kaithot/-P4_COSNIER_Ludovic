@@ -20,6 +20,7 @@ import com.ludovic.mareiu.R;
 import com.ludovic.mareiu.di.DI;
 import com.ludovic.mareiu.model.Meeting;
 import com.ludovic.mareiu.service.MeetingApiService;
+import com.ludovic.mareiu.utils.Utils;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -36,8 +37,9 @@ public class AddMeetingActivity extends AppCompatActivity {
     Button mAddButton;
     private int mYear, mMonth, mDay, mHour, mMinute;
     Calendar mCalendar;
-    Calendar mStartTimer;
-    Calendar mEndTimer;
+    Calendar mStart;
+    Calendar mEnd;
+
     private SimpleDateFormat mDateFormat;
     private SimpleDateFormat mTimeFormat;
 
@@ -69,6 +71,8 @@ public class AddMeetingActivity extends AppCompatActivity {
      */
     private void initCalendars() {
         mCalendar = Calendar.getInstance();
+        mStart = Calendar.getInstance();
+        mEnd = Calendar.getInstance();
         mCalendar.add(Calendar.HOUR, 1);
         mCalendar.add(Calendar.MINUTE,0);
 
@@ -94,7 +98,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                                 mCalendar.set(year,month,day);
                                 mDateSelected.setText(mDateFormat.format(mCalendar.getTime()));
                             }
-                        }, mYear, mMonth, mMonth);
+                        }, mYear, mMonth, mDay);
 
                 datePickerDialog.show();
             }
@@ -103,8 +107,7 @@ public class AddMeetingActivity extends AppCompatActivity {
     }
 
     private void startTime() {
-
-        mStartTime.setText(mTimeFormat.format(mCalendar.getTime()));
+        mStartTime.setText(mTimeFormat.format(mStart.getTime()));
         mStartTime.setClickable(true);
         mStartTime.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -112,8 +115,9 @@ public class AddMeetingActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        mCalendar.set(hourOfDay,minutes);
-                        mStartTime.setText(mTimeFormat.format(mCalendar.getTime()));
+                        mStart.set(mYear,mMonth,mDay,hourOfDay,minutes);
+                        mStartTime.setText(mTimeFormat.format(Utils.getTheTime(hourOfDay, minutes)));
+
                     }
                 }, mHour, 0, true);
                 timePickerDialog.show();
@@ -132,8 +136,8 @@ public class AddMeetingActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        mEndTimer.set(hourOfDay,minutes);
-                        mEndTime.setText(mTimeFormat.format(mEndTimer.getTime()));
+                        mEnd.set(mYear,mMonth,mDay,hourOfDay,minutes);
+                        mEndTime.setText(mTimeFormat.format(Utils.getTheTime(hourOfDay, minutes)));
                     }
                 }, mHour+1, 0, true);
                 timePickerDialog.show();
@@ -147,8 +151,8 @@ public class AddMeetingActivity extends AppCompatActivity {
         String topic = mTopic.getText().toString();
         Date date = mCalendar.getTime();
         String room = mSpinnerRoom.getSelectedItem().toString();
-        Date start = mStartTimer.getTime();
-        Date end = mEndTimer.getTime();
+        Date start = mStart.getTime();
+        Date end = mEnd.getTime();
         String participants = mParticipants.getText().toString();
         Meeting meeting = new Meeting(topic,date,start,end,room,participants);
         mApiService.createMeeting(meeting);

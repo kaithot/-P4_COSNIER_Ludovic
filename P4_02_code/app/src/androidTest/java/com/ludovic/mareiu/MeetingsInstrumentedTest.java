@@ -57,7 +57,7 @@ public class MeetingsInstrumentedTest {
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize - 1));
     }
 
-    //TODO Le problème venait du clavier virtuel qui restait affiché PROBLEME SUR LE FORMULAIRE ; EN ATTENTE DE SOLUTION.
+    //TODO Le problème venait du clavier virtuel qui restait affiché PROBLEME SUR LE FORMULAIRE
     @Test
     public void checkIfAddingMeetingIsWorking(){
         Calendar rightNow = Calendar.getInstance();
