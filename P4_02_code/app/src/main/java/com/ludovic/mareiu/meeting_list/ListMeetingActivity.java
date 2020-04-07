@@ -44,14 +44,13 @@ public class ListMeetingActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(mAdapter);
     }
 
-    public void addMeeting(View view) {
-        AddMeetingActivity.navigate(this);
-    }
-
-
     private void refresh() {
         mMeetings = new ArrayList<>(mApiService.getMeetings());
         mAdapter.notifyDataSetChanged();
+    }
+
+    public void addMeeting(View view) {
+        AddMeetingActivity.navigate(this);
     }
 
     /*--------Menu----------*/
@@ -102,6 +101,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     }
 
     /*----------------------*/
+
 
     @Override
     public void onResume() {

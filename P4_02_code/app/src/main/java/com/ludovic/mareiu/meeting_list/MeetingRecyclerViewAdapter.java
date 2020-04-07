@@ -93,8 +93,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
 
-
-
             List<Meeting> filteredList = new ArrayList<>();
 
             if (constraint == null || constraint.length() == 0) {
