@@ -69,12 +69,14 @@ public class AddMeetingActivity extends AppCompatActivity {
     /**
      * Init start calendar to next hour
      */
+
+
     private void initCalendars() {
         mCalendar = Calendar.getInstance();
         mStart = Calendar.getInstance();
         mEnd = Calendar.getInstance();
         mCalendar.add(Calendar.HOUR, 1);
-        mCalendar.add(Calendar.MINUTE,0);
+        mCalendar.add(Calendar.MINUTE, 0);
 
         mYear = mCalendar.get(mCalendar.YEAR);
         mMonth = mCalendar.get(mCalendar.MONTH);
@@ -95,7 +97,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker datePicker, int year, int month, int day) {
-                                mCalendar.set(year,month,day);
+                                mCalendar.set(year, month, day);
                                 mDateSelected.setText(mDateFormat.format(mCalendar.getTime()));
                             }
                         }, mYear, mMonth, mDay);
@@ -115,7 +117,7 @@ public class AddMeetingActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        mStart.set(mYear,mMonth,mDay,hourOfDay,minutes);
+                        mStart.set(mYear, mMonth, mDay, hourOfDay, minutes);
                         mStartTime.setText(mTimeFormat.format(Utils.getTheTime(hourOfDay, minutes)));
 
                     }
@@ -136,10 +138,10 @@ public class AddMeetingActivity extends AppCompatActivity {
                 TimePickerDialog timePickerDialog = new TimePickerDialog(AddMeetingActivity.this, new TimePickerDialog.OnTimeSetListener() {
                     @Override
                     public void onTimeSet(TimePicker timePicker, int hourOfDay, int minutes) {
-                        mEnd.set(mYear,mMonth,mDay,hourOfDay,minutes);
+                        mEnd.set(mYear, mMonth, mDay, hourOfDay, minutes);
                         mEndTime.setText(mTimeFormat.format(Utils.getTheTime(hourOfDay, minutes)));
                     }
-                }, mHour+1, 0, true);
+                }, mHour + 1, 0, true);
                 timePickerDialog.show();
             }
         });
@@ -154,7 +156,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         Date start = mStart.getTime();
         Date end = mEnd.getTime();
         String participants = mParticipants.getText().toString();
-        Meeting meeting = new Meeting(topic,date,start,end,room,participants);
+        Meeting meeting = new Meeting(topic, date, start, end, room, participants);
         mApiService.createMeeting(meeting);
 
         //TODO AFIN DE REFRESH la list de meeting autre solution ?

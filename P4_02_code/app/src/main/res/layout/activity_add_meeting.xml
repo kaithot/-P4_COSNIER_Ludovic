@@ -48,7 +48,8 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
                 android:gravity="center"
-                android:text="" />
+                android:text=""
+                android:textSize="20sp" />
         </LinearLayout>
 
         <LinearLayout
@@ -69,7 +70,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center|center_vertical" />
+                android:gravity="center|center_vertical"
+                android:textSize="20sp" />
 
             <TextView
                 android:id="@+id/to"
@@ -84,7 +86,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:gravity="center|center_vertical" />
+                android:gravity="center|center_vertical"
+                android:textSize="20sp" />
 
         </LinearLayout>
 
@@ -108,8 +111,9 @@
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
                 android:entries="@array/roomtypelist"
-                android:gravity="center|center_horizontal"
-                android:prompt="@string/MeetingRooms" />
+                android:gravity="center"
+                android:prompt="@string/MeetingRooms"
+                android:spinnerMode="dropdown" />
         </LinearLayout>
 
         <EditText
@@ -119,7 +123,8 @@
             android:layout_marginBottom="10dp"
             android:gravity="top"
             android:hint="@string/AddParticipants"
-            android:padding="15dp" />
+            android:padding="15dp"
+            android:textSize="20sp" />
 
         <Button
             android:id="@+id/create"
