@@ -158,11 +158,7 @@ public class AddMeetingActivity extends AppCompatActivity {
         String participants = mParticipants.getText().toString();
         Meeting meeting = new Meeting(topic, date, start, end, room, participants);
         mApiService.createMeeting(meeting);
-
-        //TODO AFIN DE REFRESH la list de meeting autre solution ?
-        Intent i = new Intent(AddMeetingActivity.this, ListMeetingActivity.class);
         finish();
-        startActivity(i);
     }
 
     /**

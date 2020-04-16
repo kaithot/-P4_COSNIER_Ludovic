@@ -47,6 +47,7 @@ public class ListMeetingActivity extends AppCompatActivity {
     private void refresh() {
         mMeetings = new ArrayList<>(mApiService.getMeetings());
         mAdapter.notifyDataSetChanged();
+        mAdapter.update(mMeetings);
     }
 
     public void addMeeting(View view) {

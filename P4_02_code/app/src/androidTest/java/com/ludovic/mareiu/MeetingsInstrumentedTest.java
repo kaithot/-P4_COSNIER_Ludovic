@@ -3,6 +3,7 @@ package com.ludovic.mareiu;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
+import androidx.test.filters.LargeTest;
 import androidx.test.rule.ActivityTestRule;
 
 import com.ludovic.mareiu.di.DI;
@@ -30,21 +31,20 @@ import static com.ludovic.mareiu.utils.RecyclerViewUtils.clickChildView;
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
 @RunWith(AndroidJUnit4.class)
+@LargeTest
 public class MeetingsInstrumentedTest {
 
     @Rule
     public ActivityTestRule<ListMeetingActivity> mActivityRule = new ActivityTestRule<>(ListMeetingActivity.class);
-
-    private int currentMeetingsSize = -1;
+    private int currentMeetingsSize = 3;
     private MeetingApiService mApiService;
 
     @Before
     public void setup(){
         mApiService = DI.getMeetingApiService();
         mActivityRule.getActivity();
-        currentMeetingsSize = 3;
+        currentMeetingsSize = mApiService.getMeetings().size();
     }
-
     @Test
     public void checkRecyclerViewItemCount(){
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize));
@@ -72,5 +72,6 @@ public class MeetingsInstrumentedTest {
 
         //Check Meetings recyclerView counts one more
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize + 1));
+
     }
 }

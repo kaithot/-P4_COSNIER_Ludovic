@@ -31,6 +31,10 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
 
     public MeetingRecyclerViewAdapter(List<Meeting> items) {
         this.mMeetings = items;
+
+    }
+
+    public void update (List<Meeting> items){
         meetingListFull = new ArrayList<>(items);
     }
 

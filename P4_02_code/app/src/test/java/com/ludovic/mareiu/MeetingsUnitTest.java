@@ -61,8 +61,6 @@ public class MeetingsUnitTest {
         assertEquals(mApiService.getMeetings().size(), meetingsSize + 1);
     }
 
-    // TODO NOUVEAUX TESTS
-
     @Test
     public void filterMeetingByDateWithSuccess(){
 
