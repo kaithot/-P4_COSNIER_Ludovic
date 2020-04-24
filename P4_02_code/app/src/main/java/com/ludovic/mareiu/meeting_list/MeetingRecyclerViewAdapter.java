@@ -34,7 +34,7 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
 
     }
 
-    public void update (List<Meeting> items){
+    public void update(List<Meeting> items) {
         meetingListFull = new ArrayList<>(items);
     }
 
@@ -49,28 +49,39 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
     public void onBindViewHolder(ViewHolder holder, int position) {
         final Meeting meeting = mMeetings.get(position);
 
-        String startMeeting = new SimpleDateFormat("HH:mm").format(meeting.getStartTime()); //TODO CONVERT DATE TO STRING FOR DISPLAY
+        String startMeeting = new SimpleDateFormat("HH:mm").format(meeting.getStartTime()); //CONVERT DATE TO STRING FOR DISPLAY
         String date = new SimpleDateFormat("dd/MM").format(meeting.getDate());
 
-        /*recovery current hour*/
+        /*recovery current hour, startTime and currentDay, meetingDay*/
+        Calendar calendar = Calendar.getInstance();
         Calendar rightNow = Calendar.getInstance();
-        Integer currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
-        Integer startTime = meeting.getStartTime().getHours();// TODO PAR QUOI PEUT ON REMPLACER getHours par Calendar.get(Calendar.HOUR_OF_DAY)?
+        calendar.setTime(meeting.getStartTime());
+        calendar.setTime(meeting.getDate());
+        int startTime = calendar.get(Calendar.HOUR_OF_DAY);
+        int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
+        int currentDay = rightNow.get(Calendar.DAY_OF_YEAR);
+        int meetingDay = calendar.get(Calendar.DAY_OF_YEAR);
         /*--------------------*/
 
         //*selected the good alert*/
-        Integer result = startTime - currentHour;
-        if (result < 2) {
-            holder.mAlert.setImageResource(R.drawable.red_alert);
-        } else if (result < 3) {
-            holder.mAlert.setImageResource(R.drawable.orange_alert);
+        int resultDay = meetingDay - currentDay;
+        int result = startTime - currentHour;
+
+        if (resultDay == 0) {
+
+            if (result < 2) {
+                holder.mAlert.setImageResource(R.drawable.red_alert);
+            } else if (result < 3) {
+                holder.mAlert.setImageResource(R.drawable.orange_alert);
+            } else {
+                holder.mAlert.setImageResource(R.drawable.green_alert);
+            }
         } else {
             holder.mAlert.setImageResource(R.drawable.green_alert);
         }
-
-        holder.mMeetingTopicSchedulePlace.setText(MessageFormat.format("{0} - {1} - {2} - {3}", meeting.getTopic(),date, startMeeting, meeting.getPlace()));
+        holder.mMeetingTopicSchedulePlace.setText(MessageFormat.format("{0} - {1} - {2} - {3}",
+                meeting.getTopic(), date, startMeeting, meeting.getPlace()));
         holder.mMeetingParticipant.setText(meeting.getParticipant());
-
 
         holder.mDeleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -79,7 +90,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
                 EventBus.getDefault().post(new DeleteMeetingEvent(meeting));
             }
         });
-
     }
 
     @Override
@@ -103,10 +113,9 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
                 filteredList.addAll(meetingListFull);
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
-
                 for (Meeting item : meetingListFull) {
                     String stringDate = new SimpleDateFormat("dd/MM").format(item.getDate());
-                    if (item.getPlace().toLowerCase().contains(filterPattern)||(stringDate.contains(filterPattern))) {
+                    if (item.getPlace().toLowerCase().contains(filterPattern) || (stringDate.contains(filterPattern))) {
                         filteredList.add(item);
                     }
 
@@ -133,7 +142,6 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         TextView mMeetingTopicSchedulePlace;
         TextView mMeetingParticipant;
         ImageButton mDeleteButton;
-
 
         ViewHolder(View itemView) {
             super(itemView);

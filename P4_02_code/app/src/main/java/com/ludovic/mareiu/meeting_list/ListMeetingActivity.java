@@ -50,57 +50,44 @@ public class ListMeetingActivity extends AppCompatActivity {
         mAdapter.update(mMeetings);
     }
 
-    public void addMeeting(View view) {
+    public void addMeeting(View view) { // when floating action button is select,  go to Add Meeting Activity
         AddMeetingActivity.navigate(this);
     }
 
     /*--------Menu----------*/
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.menu_main, menu);
-
         MenuItem searchItem = menu.findItem(R.id.Filter);
         SearchView searchView = (SearchView) searchItem.getActionView();
 
         searchView.setQueryHint("Filter by room or day (dd/MM)"); // display into the searchView
-
         searchView.setImeOptions(EditorInfo.IME_ACTION_DONE); // transform keyboard's search into function enter
         searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
 
             @Override
             public boolean onQueryTextSubmit(String query) {
-
                 return false;
             }
-
             @Override
             public boolean onQueryTextChange(String newText) {
-
                 mAdapter.getFilter().filter(newText);
-
                 return false;
             }
         });
         return true;
-
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-
             case R.id.Filter:
-
             default:
                 return super.onOptionsItemSelected(item);
-
         }
-
     }
-
     /*----------------------*/
 
 

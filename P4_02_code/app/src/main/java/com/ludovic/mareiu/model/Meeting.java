@@ -4,7 +4,7 @@ package com.ludovic.mareiu.model;
 import java.util.Date;
 
 /**
- * Model object representing a Meeting ; implements also Serializable
+ * Model object representing a Meeting
  */
 public class Meeting {
 

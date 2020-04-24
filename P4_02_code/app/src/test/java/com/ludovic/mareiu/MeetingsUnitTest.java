@@ -18,7 +18,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-
 @RunWith(JUnit4.class)
 public class MeetingsUnitTest {
 
@@ -54,7 +53,9 @@ public class MeetingsUnitTest {
     public void addNewMeetingWithSuccess(){
         //GIVEN
         int meetingsSize = mApiService.getMeetings().size();
-        Meeting newMeeting = new Meeting ("Demo 4", Utils.getDate(2020,4,15),Utils.getTheTime(17, 0),Utils.getTheTime(18,0),"Luigi","maxime@lamzone.fr, alexandra@lamzone.fr");
+        Meeting newMeeting = new Meeting ("Demo 4", Utils.getDate(2020,4,15),
+                Utils.getTheTime(17, 0),
+                Utils.getTheTime(18,0),"Luigi","maxime@lamzone.fr, alexandra@lamzone.fr");
         //WHEN
         mApiService.createMeeting(newMeeting);
         //THEN
@@ -64,7 +65,6 @@ public class MeetingsUnitTest {
     @Test
     public void filterMeetingByDateWithSuccess(){
 
-
         Date date = Utils.getDate(2020,4,13);
         List<Meeting>filteredMeeting = mApiService.getMeetingsFilteredByDate(date);
         // check if meetings only contains required date
@@ -73,8 +73,6 @@ public class MeetingsUnitTest {
 
     @Test
     public void filterMeetingByRoomWithSuccess(){
-
-
 
         String room ="Mario";
         List<Meeting>filteredMeeting = mApiService.getMeetingsFilteredByRoom(room);
