@@ -64,16 +64,17 @@ public class MeetingsUnitTest {
 
     @Test
     public void filterMeetingByDateWithSuccess(){
-
         Date date = Utils.getDate(2020,4,13);
         List<Meeting>filteredMeeting = mApiService.getMeetingsFilteredByDate(date);
         // check if meetings only contains required date
-
+        for (Meeting meeting : filteredMeeting)
+        {
+            assertTrue(meeting.getDate()== Utils.getDate(2020,4,13));
+        }
     }
 
     @Test
     public void filterMeetingByRoomWithSuccess(){
-
         String room ="Mario";
         List<Meeting>filteredMeeting = mApiService.getMeetingsFilteredByRoom(room);
         // check if meetings only contains required room
@@ -81,6 +82,5 @@ public class MeetingsUnitTest {
         {
             assertTrue(meeting.getPlace()=="Mario");
         }
-
     }
 }

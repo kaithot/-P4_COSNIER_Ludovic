@@ -79,6 +79,8 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         } else {
             holder.mAlert.setImageResource(R.drawable.green_alert);
         }
+        /*-----------------------*/
+
         holder.mMeetingTopicSchedulePlace.setText(MessageFormat.format("{0} - {1} - {2} - {3}",
                 meeting.getTopic(), date, startMeeting, meeting.getPlace()));
         holder.mMeetingParticipant.setText(meeting.getParticipant());

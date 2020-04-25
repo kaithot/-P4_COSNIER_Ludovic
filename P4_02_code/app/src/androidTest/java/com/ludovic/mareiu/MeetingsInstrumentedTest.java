@@ -16,8 +16,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
-import java.util.Calendar;
-
 import static androidx.test.espresso.Espresso.onView;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
@@ -36,7 +34,7 @@ public class MeetingsInstrumentedTest {
 
     @Rule
     public ActivityTestRule<ListMeetingActivity> mActivityRule = new ActivityTestRule<>(ListMeetingActivity.class);
-    private int currentMeetingsSize = 3;
+    private int currentMeetingsSize;
     private MeetingApiService mApiService;
 
     @Before
@@ -59,9 +57,6 @@ public class MeetingsInstrumentedTest {
 
     @Test
     public void checkIfAddingMeetingIsWorking(){
-        Calendar rightNow = Calendar.getInstance();
-        int hour = rightNow.get(Calendar.HOUR_OF_DAY);
-        int minutes = rightNow.get(Calendar.MINUTE);
 
         //Adding a meeting in our AddMeetingFragment
         onView(withId(R.id.add_meeting)).perform(click());
