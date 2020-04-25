@@ -1,67 +1,121 @@
 package com.ludovic.mareiu.meeting_list;
 
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.android.material.tabs.TabLayout;
-import com.ludovic.mareiu.R;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.inputmethod.EditorInfo;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.viewpager.widget.ViewPager;
+import androidx.appcompat.widget.SearchView;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.View;
-import android.view.Menu;
-import android.view.MenuItem;
+import com.ludovic.mareiu.R;
+import com.ludovic.mareiu.di.DI;
+import com.ludovic.mareiu.events.DeleteMeetingEvent;
+import com.ludovic.mareiu.model.Meeting;
+import com.ludovic.mareiu.service.MeetingApiService;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
+import java.util.ArrayList;
 import java.util.List;
 
 public class ListMeetingActivity extends AppCompatActivity {
-    Toolbar mToolbar;
-    ViewPager mViewPager;
-    ListMeetingPagerAdapter mPagerAdapter;
+
+    private MeetingRecyclerViewAdapter mAdapter = new MeetingRecyclerViewAdapter(DI.getMeetingApiService().getMeetings());
+    private MeetingApiService mApiService;
+    private List<Meeting> mMeetings;
+    private RecyclerView mRecyclerView;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_meeting);
-        mToolbar = findViewById(R.id.toolbar);
-        mViewPager = (ViewPager) findViewById(R.id.container);
-
-        setSupportActionBar(mToolbar);
-        mPagerAdapter = new ListMeetingPagerAdapter(getSupportFragmentManager());
-        mViewPager.setAdapter(mPagerAdapter);
-
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        mApiService = DI.getMeetingApiService();
+        mRecyclerView = (RecyclerView) findViewById(R.id.list_meetings);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mMeetings = mApiService.getMeetings();
+        mAdapter = new MeetingRecyclerViewAdapter(mMeetings);
+        mRecyclerView.setAdapter(mAdapter);
     }
 
+    private void refresh() {
+        mMeetings = new ArrayList<>(mApiService.getMeetings());
+        mAdapter.notifyDataSetChanged();
+        mAdapter.update(mMeetings);
+    }
+
+    public void addMeeting(View view) { // when floating action button is select,  go to Add Meeting Activity
+        AddMeetingActivity.navigate(this);
+    }
+
+    /*--------Menu----------*/
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_main, menu);
+        MenuItem searchItem = menu.findItem(R.id.Filter);
+        SearchView searchView = (SearchView) searchItem.getActionView();
+
+        searchView.setQueryHint("Filter by room or day (dd/MM)"); // display into the searchView
+        searchView.setImeOptions(EditorInfo.IME_ACTION_DONE); // transform keyboard's search into function enter
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                return false;
+            }
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                mAdapter.getFilter().filter(newText);
+                return false;
+            }
+        });
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.Filter:
+            default:
+                return super.onOptionsItemSelected(item);
         }
-
-        return super.onOptionsItemSelected(item);
     }
+    /*----------------------*/
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        EventBus.getDefault().unregister(this);
+    }
+
+    /*-----------delete button-----------*/
+    @Subscribe
+    public void onDeleteMeeting(DeleteMeetingEvent event) {
+
+        mApiService.deleteMeeting(event.meeting);
+        refresh();
+    }
+    /*-----------------------------------*/
+
 }

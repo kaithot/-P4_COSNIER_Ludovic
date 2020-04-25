@@ -2,6 +2,7 @@ package com.ludovic.mareiu.service;
 
 import com.ludovic.mareiu.model.Meeting;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -12,12 +13,24 @@ public interface MeetingApiService {
     /**
      * Get all the meetings
      */
-
     List<Meeting>getMeetings();
 
     /**
-     * Deletes a meeting
+     * Delete a meeting
+     */
+    void deleteMeeting (Meeting meeting);
+
+    /**
+     * Create a meeting
+     */
+    void createMeeting(Meeting meeting);
+
+    /**
+     * Filter the meetings by room and day
      */
 
-    void deleteMeeting (Meeting meeting);
+    List<Meeting> getMeetingsFilteredByDate(Date date);
+
+    List<Meeting> getMeetingsFilteredByRoom(String room);
+
 }

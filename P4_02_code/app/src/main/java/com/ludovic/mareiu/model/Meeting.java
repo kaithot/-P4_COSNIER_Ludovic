@@ -1,22 +1,22 @@
 package com.ludovic.mareiu.model;
 
-import java.io.Serializable;
-import java.util.Objects;
+
+import java.util.Date;
 
 /**
- * Model object representing a Meeting ; implements also Serializable
+ * Model object representing a Meeting
  */
-public class Meeting implements Serializable {
-
-    /**
-     * Identifier
-     */
-    private Integer id;
+public class Meeting {
 
     /**
      * Subject
      */
-    private String subject;
+    private String topic;
+
+    /**
+     * Date
+     */
+    private Date date;
 
     /**
      * Place
@@ -24,45 +24,43 @@ public class Meeting implements Serializable {
     private String place;
 
     /**
-     * Start
+     * StartTime
      */
-    private String start;
+    private Date startTime;
+
+    /**
+     * EndTime
+     */
+    private Date endTime;
 
     /**
      * Participant
      */
     private String participant;
 
-/**
- * Constructor
- * @param id
- * @param subject
- * @param place
- * @param start
- * @param participant
- */
- public Meeting(Integer id, String subject, String place, String start, String participant){
-     this.id = id;
-     this.subject = subject;
-     this.place = place;
-     this.start = start;
-     this.participant = participant;
- }
-
-    public Integer getId() {
-        return id;
+    public Meeting(String topic, Date date, Date startTime, Date endTime,String place, String participant) {
+        this.topic = topic;
+        this.date = date;
+        this.place = place;
+        this.startTime = startTime;
+        this.endTime = endTime;
+        this.participant = participant;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public String getTopic() {
+        return topic;
     }
 
-    public String getSubject() {
-        return subject;
+    public void setTopic(String topic) {
+        this.topic = topic;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     public String getPlace() {
@@ -73,12 +71,20 @@ public class Meeting implements Serializable {
         this.place = place;
     }
 
-    public String getStart() {
-        return start;
+    public Date getStartTime() {
+        return startTime;
     }
 
-    public void setStart(String start) {
-        this.start = start;
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
     }
 
     public String getParticipant() {
@@ -87,18 +93,5 @@ public class Meeting implements Serializable {
 
     public void setParticipant(String participant) {
         this.participant = participant;
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Meeting)) return false;
-        Meeting meeting = (Meeting) o;
-        return getId().equals(meeting.getId());
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getId());
     }
 }

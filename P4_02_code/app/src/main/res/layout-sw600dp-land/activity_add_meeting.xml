@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/form"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical"
+    android:visibility="visible"
+    tools:context=".meeting_list.AddMeetingActivity">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0">
+
+
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="@string/recordMeeting"
+            android:textSize="30sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/topic"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center_horizontal"
+            android:hint="@string/topicName"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toTopOf="@+id/date_selected"
+            app:layout_constraintEnd_toStartOf="@+id/divider2"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle"
+            tools:text="DEMO"
+            tools:visibility="visible" />
+
+        <TextView
+            android:id="@+id/date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:text="Date :"
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/date_selected"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:gravity="center"
+            android:text=""
+            android:textSize="24sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toStartOf="@+id/divider2"
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toEndOf="@+id/date"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:text="24 avr. 2020" />
+
+        <LinearLayout
+            android:id="@+id/linearLayout"
+            android:layout_width="241dp"
+            android:layout_height="62dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="40dp"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toStartOf="@+id/divider2"
+            app:layout_constraintHorizontal_bias="0.642"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_selected">
+
+            <TextView
+                android:id="@+id/start_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="24sp"
+                tools:text="18:00" />
+
+            <TextView
+                android:id="@+id/to"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:text="to"
+                android:textSize="24sp" />
+
+            <TextView
+                android:id="@+id/end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="15dp"
+                android:textSize="24sp"
+                tools:text="20:00" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/select_room"
+            android:layout_width="241dp"
+            android:layout_height="48dp"
+            android:layout_margin="15dp"
+            android:layout_marginStart="15dp"
+            android:gravity="center_vertical"
+            android:text="@string/select_the_room"
+            android:textSize="24sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <Spinner
+            android:id="@+id/spinnerMeetingRooms"
+            android:layout_width="149dp"
+            android:layout_height="50dp"
+            android:layout_margin="15dp"
+            android:entries="@array/roomtypelist"
+            android:gravity="center"
+            android:prompt="@string/MeetingRooms"
+            android:spinnerMode="dropdown"
+            app:layout_constraintStart_toStartOf="@+id/linearLayout"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <EditText
+            android:id="@+id/participants"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="15dp"
+            android:hint="@string/AddParticipants"
+            android:lines="8"
+            android:textSize="20sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider2"
+            app:layout_constraintTop_toBottomOf="@+id/textViewTitle" />
+
+        <Button
+            android:id="@+id/create"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="addMeeting"
+            android:text="@string/saveMeeting"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/divider2"
+            app:layout_constraintTop_toBottomOf="@+id/participants"
+            app:layout_constraintVertical_bias="0.639" />
+
+        <View
+            android:id="@+id/divider2"
+            android:layout_width="1dp"
+            android:layout_height="461dp"
+            android:background="?android:attr/listDivider"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/select_start_time"
+            android:layout_width="220dp"
+            android:layout_height="58dp"
+            android:layout_margin="15dp"
+            android:layout_marginTop="15dp"
+            android:gravity="center_vertical"
+            android:text="@string/select_start_time"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toStartOf="@+id/linearLayout"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/date_selected" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
