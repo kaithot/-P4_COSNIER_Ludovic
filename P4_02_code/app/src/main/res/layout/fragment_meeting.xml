@@ -23,6 +23,8 @@
             android:id="@+id/item_main"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
+            android:layout_marginStart="0dp"
+            android:layout_toStartOf="@+id/item_list_delete_button"
             android:layout_toEndOf="@+id/item_alert"
             android:ellipsize="start"
             android:singleLine="true"
@@ -41,9 +43,10 @@
 
         <TextView
             android:id="@+id/item_list_participant"
-            android:layout_width="220dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/item_main"
+            android:layout_toStartOf="@+id/item_list_delete_button"
             android:layout_toEndOf="@+id/item_alert"
             android:ellipsize="end"
             android:maxLines="1"
