@@ -21,10 +21,12 @@
 
         <TextView
             android:id="@+id/item_main"
-            android:layout_width="wrap_content"
+            android:layout_width="220dp"
             android:layout_height="wrap_content"
             android:layout_toEndOf="@+id/item_alert"
-            android:textSize="18sp"
+            android:ellipsize="start"
+            android:singleLine="true"
+            android:textSize="14sp"
             android:textStyle="bold"
             tools:text="Réunion A - 14h00 - Peach" />
 
@@ -33,7 +35,7 @@
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="false"
+            android:layout_alignParentRight="true"
             android:backgroundTint="@android:color/transparent"
             android:src="@drawable/delete_button2" />
 

@@ -9,6 +9,7 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -81,6 +82,13 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         }
         /*-----------------------*/
 
+        holder.mAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), meeting.getTopic(),Toast.LENGTH_LONG).show();
+            }
+        });
+
         holder.mMeetingTopicSchedulePlace.setText(MessageFormat.format("{0} - {1} - {2} - {3}",
                 meeting.getTopic(), date, startMeeting, meeting.getPlace()));
         holder.mMeetingParticipant.setText(meeting.getParticipant());
@@ -114,8 +122,8 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(meetingListFull);
             } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Meeting item : meetingListFull) {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
                     String stringDate = new SimpleDateFormat("dd/MM").format(item.getDate());
                     if (item.getPlace().toLowerCase().contains(filterPattern) || (stringDate.contains(filterPattern))) {
                         filteredList.add(item);

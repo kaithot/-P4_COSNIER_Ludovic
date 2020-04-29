@@ -8,7 +8,6 @@
     <string name="title_activity_main">MainActivity</string>
     <string name="previous">Previous</string>
     <string name="activity_new_meeting" />
-    <string name="recordMeeting">Enter elements for your meeting:</string>
 
 <!--Spinners elements-->
     <string name = "room1"> Mario </string>
@@ -24,7 +23,7 @@
     <!-- -->
 
     <string name="MeetingRooms">MeetingRooms</string>
-    <string name="topicName">Meeting\'s Topic</string>
+    <string name="topicName">Topic</string>
     <string name="AddParticipants">Add Participants</string>
     <string name="saveMeeting">Add a meeting</string>
     <string name="select_the_room">Select the room :</string>
