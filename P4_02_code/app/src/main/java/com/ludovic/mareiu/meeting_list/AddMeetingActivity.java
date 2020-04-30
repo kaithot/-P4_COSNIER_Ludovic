@@ -11,10 +11,12 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.FragmentActivity;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.ludovic.mareiu.R;
 import com.ludovic.mareiu.di.DI;
@@ -39,6 +41,9 @@ public class AddMeetingActivity extends AppCompatActivity {
     Calendar mCalendar;
     Calendar mStart;
     Calendar mEnd;
+    Button mAddMailsButton;
+    EditText mMailEditText;
+    RecyclerView mMailRecyclerView;
 
     private SimpleDateFormat mDateFormat;
     private SimpleDateFormat mTimeFormat;
@@ -156,9 +161,34 @@ public class AddMeetingActivity extends AppCompatActivity {
         Date start = mStart.getTime();
         Date end = mEnd.getTime();
         String participants = mParticipants.getText().toString();
-        Meeting meeting = new Meeting(topic, date, start, end, room, participants);
-        mApiService.createMeeting(meeting);
-        finish();
+
+        // count number of "@" into the String //
+        String nbArrobase = participants;
+        String letter1 = "@";
+        int numOfOccurences1 = nbArrobase.length() -
+                nbArrobase.replaceAll(letter1, "").length();
+
+        // count number of "," into the String //
+        String nbVirgule = participants;
+        String letter2 = ",";
+        int numOfOccurences2 = nbArrobase.length() -
+                nbArrobase.replaceAll(letter2, "").length();
+
+        // Test fields blanks and emails no valid //
+        if (numOfOccurences1 > numOfOccurences2 && !topic.equals("") && !room.equals("") && !participants.equals("")) {
+            Meeting meeting = new Meeting(topic, date, start, end, room, participants);
+            mApiService.createMeeting(meeting);
+            finish();
+        } else {
+            if (numOfOccurences2 > numOfOccurences1 || numOfOccurences2 == numOfOccurences1) {
+                Toast.makeText(AddMeetingActivity.this, "email no valid", Toast.LENGTH_LONG).show();
+            } else {
+
+                {
+                    Toast.makeText(AddMeetingActivity.this, "Field missing", Toast.LENGTH_LONG).show();
+                }
+            }
+        }
     }
 
     /**

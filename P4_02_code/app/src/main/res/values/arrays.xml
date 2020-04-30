@@ -1,5 +1,6 @@
 <resources>
     <string-array name = "roomtypelist">
+        <item> @string/room0 </item>
         <item> @string/room1 </item>
         <item> @string/room2 </item>
         <item> @string/room3 </item>
