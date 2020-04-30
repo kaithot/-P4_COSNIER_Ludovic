@@ -1,6 +1,6 @@
 package com.ludovic.mareiu;
 
-import androidx.test.InstrumentationRegistry;
+import androidx.test.platform.app.InstrumentationRegistry;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -27,7 +27,7 @@ import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
 import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
 import static androidx.test.espresso.matcher.ViewMatchers.withText;
-import static com.ludovic.mareiu.meeting_list.ListMeetingActivityTest.childAtPosition;
+import static com.ludovic.mareiu.utils.RecyclerViewUtils.childAtPosition;
 import static com.ludovic.mareiu.utils.RecyclerViewUtils.clickChildView;
 import static org.hamcrest.Matchers.allOf;
 
@@ -81,7 +81,7 @@ public class MeetingsInstrumentedTest {
     @Test
     public void checkIfFilteringByRoomIsWorking(){
 
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         onView(allOf(withId(R.id.title), withText("Filter by Room or Day"),childAtPosition(
                 childAtPosition(withId(R.id.content),0),0),isDisplayed())).perform(click());
@@ -101,7 +101,7 @@ public class MeetingsInstrumentedTest {
     @Test
     public void checkIfFilteringByDateIsWorking(){
 
-        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
         onView(allOf(withId(R.id.title), withText("Filter by Room or Day"),childAtPosition(
                 childAtPosition(withId(R.id.content),0),0),isDisplayed())).perform(click());
@@ -116,4 +116,6 @@ public class MeetingsInstrumentedTest {
 
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize));
     }
+
+
 }
