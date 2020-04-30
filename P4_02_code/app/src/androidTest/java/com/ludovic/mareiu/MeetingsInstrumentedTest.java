@@ -81,19 +81,24 @@ public class MeetingsInstrumentedTest {
     @Test
     public void checkIfFilteringByRoomIsWorking(){
 
+        // go to the menu
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
+        // click on the Filter
         onView(allOf(withId(R.id.title), withText("Filter by Room or Day"),childAtPosition(
                 childAtPosition(withId(R.id.content),0),0),isDisplayed())).perform(click());
 
+        // put "Mario" into the searchView and valid this
         onView(allOf(withId(R.id.search_src_text),childAtPosition(allOf(withId(R.id.search_plate),
                 childAtPosition(withId(R.id.search_edit_frame),1)),0),isDisplayed())).perform(replaceText("Mario"), closeSoftKeyboard());
 
+        //check that list_meeting equal at one
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize -2));
 
+        //clear the searchView
         onView(allOf(withId(R.id.search_close_btn), withContentDescription("Clear query"),
                 childAtPosition(allOf(withId(R.id.search_plate),childAtPosition(withId(R.id.search_edit_frame),1)),1),isDisplayed())).perform(click());
-
+        // check that list_meeting equal at three
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize));
     }
 
@@ -101,19 +106,25 @@ public class MeetingsInstrumentedTest {
     @Test
     public void checkIfFilteringByDateIsWorking(){
 
+        // go to the menu
         openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getInstrumentation().getTargetContext());
 
+        // click on the Filter
         onView(allOf(withId(R.id.title), withText("Filter by Room or Day"),childAtPosition(
                 childAtPosition(withId(R.id.content),0),0),isDisplayed())).perform(click());
 
+        // put "14/05" into the searchView and valid this
         onView(allOf(withId(R.id.search_src_text),childAtPosition(allOf(withId(R.id.search_plate),
                 childAtPosition(withId(R.id.search_edit_frame),1)),0),isDisplayed())).perform(replaceText("14/05"), closeSoftKeyboard());
 
+        //check that list_meeting equal at one
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize -2));
 
+        //clear the searchView
         onView(allOf(withId(R.id.search_close_btn), withContentDescription("Clear query"),
                 childAtPosition(allOf(withId(R.id.search_plate),childAtPosition(withId(R.id.search_edit_frame),1)),1),isDisplayed())).perform(click());
 
+        // check that list_meeting equal at three
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize));
     }
 
