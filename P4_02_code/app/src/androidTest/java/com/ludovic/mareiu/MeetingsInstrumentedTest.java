@@ -1,5 +1,6 @@
 package com.ludovic.mareiu;
 
+import androidx.test.InstrumentationRegistry;
 import androidx.test.espresso.ViewAssertion;
 import androidx.test.espresso.contrib.RecyclerViewActions;
 import androidx.test.ext.junit.runners.AndroidJUnit4;
@@ -17,11 +18,18 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import static androidx.test.espresso.Espresso.onView;
+import static androidx.test.espresso.Espresso.openActionBarOverflowOrOptionsMenu;
 import static androidx.test.espresso.action.ViewActions.click;
 import static androidx.test.espresso.action.ViewActions.closeSoftKeyboard;
+import static androidx.test.espresso.action.ViewActions.replaceText;
 import static androidx.test.espresso.action.ViewActions.typeText;
+import static androidx.test.espresso.matcher.ViewMatchers.isDisplayed;
+import static androidx.test.espresso.matcher.ViewMatchers.withContentDescription;
 import static androidx.test.espresso.matcher.ViewMatchers.withId;
+import static androidx.test.espresso.matcher.ViewMatchers.withText;
+import static com.ludovic.mareiu.meeting_list.ListMeetingActivityTest.childAtPosition;
 import static com.ludovic.mareiu.utils.RecyclerViewUtils.clickChildView;
+import static org.hamcrest.Matchers.allOf;
 
 /**
  * Instrumented test, which will execute on an Android device.
@@ -68,5 +76,44 @@ public class MeetingsInstrumentedTest {
         //Check Meetings recyclerView counts one more
         onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize + 1));
 
+    }
+
+    @Test
+    public void checkIfFilteringByRoomIsWorking(){
+
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+
+        onView(allOf(withId(R.id.title), withText("Filter by Room or Day"),childAtPosition(
+                childAtPosition(withId(R.id.content),0),0),isDisplayed())).perform(click());
+
+        onView(allOf(withId(R.id.search_src_text),childAtPosition(allOf(withId(R.id.search_plate),
+                childAtPosition(withId(R.id.search_edit_frame),1)),0),isDisplayed())).perform(replaceText("Mario"), closeSoftKeyboard());
+
+        onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize -2));
+
+        onView(allOf(withId(R.id.search_close_btn), withContentDescription("Clear query"),
+                childAtPosition(allOf(withId(R.id.search_plate),childAtPosition(withId(R.id.search_edit_frame),1)),1),isDisplayed())).perform(click());
+
+        onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize));
+    }
+
+
+    @Test
+    public void checkIfFilteringByDateIsWorking(){
+
+        openActionBarOverflowOrOptionsMenu(InstrumentationRegistry.getTargetContext());
+
+        onView(allOf(withId(R.id.title), withText("Filter by Room or Day"),childAtPosition(
+                childAtPosition(withId(R.id.content),0),0),isDisplayed())).perform(click());
+
+        onView(allOf(withId(R.id.search_src_text),childAtPosition(allOf(withId(R.id.search_plate),
+                childAtPosition(withId(R.id.search_edit_frame),1)),0),isDisplayed())).perform(replaceText("14/05"), closeSoftKeyboard());
+
+        onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize -2));
+
+        onView(allOf(withId(R.id.search_close_btn), withContentDescription("Clear query"),
+                childAtPosition(allOf(withId(R.id.search_plate),childAtPosition(withId(R.id.search_edit_frame),1)),1),isDisplayed())).perform(click());
+
+        onView(withId(R.id.list_meetings)).check((ViewAssertion) new RecyclerViewUtils.ItemCount(currentMeetingsSize));
     }
 }
