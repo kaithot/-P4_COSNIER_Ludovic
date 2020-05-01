@@ -165,22 +165,22 @@ public class AddMeetingActivity extends AppCompatActivity {
         // count number of "@" into the String //
         String nbArrobase = participants;
         String letter1 = "@";
-        int numOfOccurences1 = nbArrobase.length() -
+        int numOfOccurrences1 = nbArrobase.length() -
                 nbArrobase.replaceAll(letter1, "").length();
 
         // count number of "," into the String //
         String nbVirgule = participants;
         String letter2 = ",";
-        int numOfOccurences2 = nbArrobase.length() -
+        int numOfOccurrences2 = nbArrobase.length() -
                 nbArrobase.replaceAll(letter2, "").length();
 
         // Test fields blanks and emails no valid //
-        if (numOfOccurences1 > numOfOccurences2 && !topic.equals("") && !room.equals("") && !participants.equals("")) {
+        if (numOfOccurrences1 > numOfOccurrences2 && !topic.equals("") && !room.equals("") && !participants.equals("")) {
             Meeting meeting = new Meeting(topic, date, start, end, room, participants);
             mApiService.createMeeting(meeting);
             finish();
         } else {
-            if (numOfOccurences2 > numOfOccurences1 || numOfOccurences2 == numOfOccurences1) {
+            if (numOfOccurrences2 > numOfOccurrences1 || numOfOccurrences2 == numOfOccurrences1) {
                 Toast.makeText(AddMeetingActivity.this, "email no valid", Toast.LENGTH_LONG).show();
             } else {
 
