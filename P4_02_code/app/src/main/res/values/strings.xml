@@ -10,7 +10,7 @@
     <string name="activity_new_meeting" />
 
 <!--Spinners elements-->
-    <string name = "room0">  </string>
+    <string name = "room0"> Select a room </string>
     <string name = "room1"> Mario </string>
     <string name = "room2"> Luigi </string>
     <string name = "room3"> Peach </string>
