@@ -9,6 +9,7 @@ import android.widget.Filterable;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -53,14 +54,15 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         String date = new SimpleDateFormat("dd/MM").format(meeting.getDate());
 
         /*recovery current hour, startTime and currentDay, meetingDay*/
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendarH = Calendar.getInstance();
+        Calendar calendarD = Calendar.getInstance();
         Calendar rightNow = Calendar.getInstance();
-        calendar.setTime(meeting.getStartTime());
-        calendar.setTime(meeting.getDate());
-        int startTime = calendar.get(Calendar.HOUR_OF_DAY);
+        calendarH.setTime(meeting.getStartTime());
+        calendarD.setTime(meeting.getDate());
+        int startTime = calendarH.get(Calendar.HOUR_OF_DAY);
         int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
         int currentDay = rightNow.get(Calendar.DAY_OF_YEAR);
-        int meetingDay = calendar.get(Calendar.DAY_OF_YEAR);
+        int meetingDay = calendarD.get(Calendar.DAY_OF_YEAR);
         /*--------------------*/
 
         //*selected the good alert*/
@@ -80,6 +82,13 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
             holder.mAlert.setImageResource(R.drawable.green_alert);
         }
         /*-----------------------*/
+
+        holder.mAlert.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(v.getContext(), meeting.getTopic(),Toast.LENGTH_LONG).show();
+            }
+        });
 
         holder.mMeetingTopicSchedulePlace.setText(MessageFormat.format("{0} - {1} - {2} - {3}",
                 meeting.getTopic(), date, startMeeting, meeting.getPlace()));
@@ -114,8 +123,8 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(meetingListFull);
             } else {
-                String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Meeting item : meetingListFull) {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
                     String stringDate = new SimpleDateFormat("dd/MM").format(item.getDate());
                     if (item.getPlace().toLowerCase().contains(filterPattern) || (stringDate.contains(filterPattern))) {
                         filteredList.add(item);

@@ -11,6 +11,7 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -25,6 +26,8 @@ import com.ludovic.mareiu.utils.Utils;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class AddMeetingActivity extends AppCompatActivity {
 
@@ -155,11 +158,36 @@ public class AddMeetingActivity extends AppCompatActivity {
         String room = mSpinnerRoom.getSelectedItem().toString();
         Date start = mStart.getTime();
         Date end = mEnd.getTime();
+
         String participants = mParticipants.getText().toString();
-        Meeting meeting = new Meeting(topic, date, start, end, room, participants);
-        mApiService.createMeeting(meeting);
-        finish();
-    }
+        String[] items = participants.split(","); // character string divided with comma
+
+        int i = 0;
+        for (String item : items) { // loop for validation this emails
+            String expression = "^[\\w\\.-]+@([\\w\\-]+\\.)+[A-Z]{2,4}$";
+            CharSequence inputStr = item.trim();
+
+            Pattern pattern = Pattern.compile(expression, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(inputStr);
+            if (matcher.matches()) {
+                i++; // increment to count the good emails
+            }
+        }
+        if (i == items.length && !topic.equals("") && !room.equals("Select a room")) { //if i == total number of mails
+            Meeting meeting = new Meeting(topic, date, start, end, room, participants);// add a new meeting
+            mApiService.createMeeting(meeting);
+            finish();
+
+        } else if (topic.equals("") || room.equals("Select a room")) { // if topic or room are blank
+
+            Toast.makeText(AddMeetingActivity.this, "Field missing", Toast.LENGTH_LONG).show();
+
+        } else {
+
+            Toast.makeText(AddMeetingActivity.this, "Email no valid", Toast.LENGTH_LONG).show();
+        }
+
+        }
 
     /**
      * Used to navigate to this activity
