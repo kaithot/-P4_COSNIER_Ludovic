@@ -25,7 +25,7 @@
 
     <string name="MeetingRooms">MeetingRooms</string>
     <string name="topicName">Topic</string>
-    <string name="AddParticipants">Add Participants</string>
+    <string name="AddParticipants">Add Participant and put comma after</string>
     <string name="saveMeeting">Add a meeting</string>
     <string name="select_the_room">Select the room :</string>
     <string name="select_start_time">Time of meeting :</string>

@@ -54,14 +54,15 @@ public class MeetingRecyclerViewAdapter extends RecyclerView.Adapter<MeetingRecy
         String date = new SimpleDateFormat("dd/MM").format(meeting.getDate());
 
         /*recovery current hour, startTime and currentDay, meetingDay*/
-        Calendar calendar = Calendar.getInstance();
+        Calendar calendarH = Calendar.getInstance();
+        Calendar calendarD = Calendar.getInstance();
         Calendar rightNow = Calendar.getInstance();
-        calendar.setTime(meeting.getStartTime());
-        calendar.setTime(meeting.getDate());
-        int startTime = calendar.get(Calendar.HOUR_OF_DAY);
+        calendarH.setTime(meeting.getStartTime());
+        calendarD.setTime(meeting.getDate());
+        int startTime = calendarH.get(Calendar.HOUR_OF_DAY);
         int currentHour = rightNow.get(Calendar.HOUR_OF_DAY);
         int currentDay = rightNow.get(Calendar.DAY_OF_YEAR);
-        int meetingDay = calendar.get(Calendar.DAY_OF_YEAR);
+        int meetingDay = calendarD.get(Calendar.DAY_OF_YEAR);
         /*--------------------*/
 
         //*selected the good alert*/
